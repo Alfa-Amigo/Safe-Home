@@ -1,146 +1,217 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Blueprint
 import os
 from werkzeug.utils import secure_filename
 import uuid
 import requests
-
 from datetime import datetime
+from dotenv import load_dotenv
+
+# =============================================
+# 1. CONFIGURACIÓN INICIAL
+# =============================================
+load_dotenv()  # Cargar variables de entorno
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/uploads/'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
-# Configuración básica - en producción usar variables de entorno
-API_KEY_OPENWEATHER = 'tu_api_key_aqui'
-API_KEY_GOOGLE_MAPS = 'tu_api_key_aqui'
+# Configuración de seguridad y rendimiento
+app.config.update(
+    UPLOAD_FOLDER='static/uploads/',
+    MAX_CONTENT_LENGTH=16 * 1024 * 1024,  # 16MB
+    SECRET_KEY=os.environ.get('SECRET_KEY', 'default-secret-key-123'),
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    TEMPLATES_AUTO_RELOAD=False,
+    PREFERRED_URL_SCHEME='https'
+)
 
-# Simulación de análisis de imagen (en un proyecto real usarías un modelo de ML)
+# API Keys (usar variables de entorno en producción)
+API_KEYS = {
+    'openweather': os.environ.get('API_KEY_OPENWEATHER', 'tu-api-key-openweather'),
+    'google_maps': os.environ.get('API_KEY_GOOGLE_MAPS', 'tu-api-key-google')
+}
+
+# =============================================
+# 2. FUNCIONES COMPARTIDAS
+# =============================================
 def analyze_house_image(image_path):
-    # Aquí iría la lógica real de análisis con un modelo entrenado
-    # Por ahora simulamos resultados basados en características comunes
+    """Analiza imágenes de viviendas y devuelve recomendaciones"""
+    # Simulación de análisis con IA (en producción usar un modelo real)
+    recommendations = [
+        {
+            'id': str(uuid.uuid4()),
+            'category': 'Techo',
+            'issue': 'Estructura vulnerable a vientos fuertes',
+            'recommendation': 'Instalar soportes adicionales y usar materiales resistentes',
+            'priority': 'Alta',
+            'icon': 'fa-house-damage'
+        },
+        {
+            'id': str(uuid.uuid4()),
+            'category': 'Ventanas',
+            'issue': 'Falta de protección contra huracanes',
+            'recommendation': 'Instalar contraventanas o películas protectoras',
+            'priority': 'Media',
+            'icon': 'fa-window-maximize'
+        }
+    ]
 
-    recommendations = []
-    evacuation_routes = []
-
-    # Simulación: detectar techos vulnerables
-    recommendations.append({
-        'category': 'Techo',
-        'issue': 'Estructura del techo vulnerable',
-        'recommendation': 'Reforzar la estructura del techo con soportes adicionales y considerar materiales más resistentes a vientos fuertes.',
-        'priority': 'Alta'
-    })
-
-    # Simulación: ventanas grandes sin protección
-    recommendations.append({
-        'category': 'Ventanas',
-        'issue': 'Ventanas grandes sin protección contra huracanes',
-        'recommendation': 'Instalar contraventanas o películas protectoras para ventanas para prevenir daños por vientos fuertes y proyectiles.',
-        'priority': 'Media'
-    })
-
-    # Simulación: rutas de evacuación
-    evacuation_routes.append({
-        'type': 'Huracán',
-        'route': 'Evacuar hacia el noroeste, alejándose de la costa.',
-        'shelters': ['Escuela Primaria Central (2km)', 'Gimnasio Municipal (3.5km)']
-    })
-
-    evacuation_routes.append({
-        'type': 'Inundación',
-        'route': 'Dirigirse a zonas elevadas al sur, evitar cruzar corrientes de agua.',
-        'shelters': ['Centro Comunitario Alto (1.5km)', 'Iglesia de la Colina (2.8km)']
-    })
+    evacuation_routes = [
+        {
+            'id': str(uuid.uuid4()),
+            'type': 'Huracán',
+            'route': 'Ruta hacia el noroeste',
+            'shelters': [
+                {'name': 'Escuela Primaria', 'distance': '2km', 'capacity': '150 personas'},
+                {'name': 'Gimnasio Municipal', 'distance': '3.5km', 'capacity': '300 personas'}
+            ],
+            'map_url': f'https://www.google.com/maps?q={API_KEYS["google_maps"]}'
+        }
+    ]
 
     return {
+        'status': 'success',
+        'analysis_id': str(uuid.uuid4()),
+        'timestamp': datetime.now().isoformat(),
+        'risk_level': 'Moderado-Alto',
         'recommendations': recommendations,
-        'evacuation_routes': evacuation_routes,
-        'risk_level': 'Moderado'
+        'evacuation_routes': evacuation_routes
     }
 
-# Simulación de alertas por ubicación
-def get_location_alerts(lat, lng):
-    # Consultar API del clima
-    weather_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lng}&appid={API_KEY_OPENWEATHER}&units=metric&lang=es"
-
+def get_weather_alerts(lat, lng):
+    """Obtiene alertas meteorológicas de OpenWeatherMap"""
     try:
-        response = requests.get(weather_url)
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lng}&appid={API_KEYS['openweather']}&units=metric&lang=es"
+        response = requests.get(url, timeout=10)
         data = response.json()
 
         alerts = []
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        # Verificar condiciones meteorológicas peligrosas
-        if 'rain' in data.get('weather', [{}])[0].get('main', '').lower():
+        # Detección de condiciones peligrosas
+        weather_conditions = data.get('weather', [{}])[0]
+        wind_speed = data.get('wind', {}).get('speed', 0)
+        humidity = data.get('main', {}).get('humidity', 0)
+
+        if weather_conditions.get('main') == 'Rain':
             alerts.append({
+                'id': str(uuid.uuid4()),
                 'type': 'Lluvia intensa',
-                'message': 'Posibilidad de inundaciones en las próximas horas.',
-                'time': datetime.now().strftime('%H:%M')
+                'description': weather_conditions.get('description', 'Precipitaciones fuertes'),
+                'severity': 'Alta' if humidity > 80 else 'Moderada',
+                'time': current_time,
+                'actions': ['Evitar zonas bajas', 'Revisar drenajes']
             })
 
-        if data.get('wind', {}).get('speed', 0) > 10:  # Más de 10 m/s
+        if wind_speed > 10:  # > 10 m/s (36 km/h)
             alerts.append({
+                'id': str(uuid.uuid4()),
                 'type': 'Vientos fuertes',
-                'message': 'Vientos peligrosos que podrían dañar estructuras vulnerables.',
-                'time': datetime.now().strftime('%H:%M')
+                'description': f'Vientos de {wind_speed} m/s',
+                'severity': 'Alta' if wind_speed > 15 else 'Moderada',
+                'time': current_time,
+                'actions': ['Asegurar objetos exteriores', 'Proteger ventanas']
             })
 
-        return alerts
+        return {
+            'status': 'success',
+            'location': {'lat': lat, 'lng': lng},
+            'alerts': alerts,
+            'last_update': current_time
+        }
 
     except Exception as e:
-        print(f"Error al obtener alertas: {e}")
-        return []
+        print(f"Error fetching weather data: {str(e)}")
+        return {
+            'status': 'error',
+            'message': 'No se pudieron obtener alertas meteorológicas'
+        }
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# =============================================
+# 3. APLICACIÓN 1: ANÁLISIS DE VIVIENDAS
+# =============================================
+house_bp = Blueprint('house_analysis', __name__, url_prefix='/house')
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
+@house_bp.route('/', methods=['GET'])
+def house_index():
+    return render_template('house/index.html')
 
-    file = request.files['file']
+@house_bp.route('/analyze', methods=['POST'])
+def analyze_house():
+    # Validación de archivo
+    if 'image' not in request.files:
+        return jsonify({'error': 'No se encontró archivo'}), 400
+
+    file = request.files['image']
     if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+        return jsonify({'error': 'Archivo no seleccionado'}), 400
 
-    if file:
-        # Generar nombre único para el archivo
+    # Procesamiento seguro del archivo
+    try:
         filename = secure_filename(file.filename)
-        unique_filename = f"{uuid.uuid4().hex}_{filename}"
-        save_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
-
-        # Crear directorio si no existe
+        unique_name = f"{uuid.uuid4().hex}_{filename}"
+        save_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_name)
+        
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
-
         file.save(save_path)
 
-        # Analizar la imagen
-        analysis_results = analyze_house_image(save_path)
+        # Análisis de imagen
+        result = analyze_house_image(save_path)
+        result['image_url'] = f"/static/uploads/{unique_name}"
 
-        return jsonify({
-            'status': 'success',
-            'image_url': f"static/uploads/{unique_filename}",
-            'analysis': analysis_results
-        })
+        return jsonify(result)
 
-    return jsonify({'error': 'Error desconocido'}), 500
+    except Exception as e:
+        print(f"Error processing image: {str(e)}")
+        return jsonify({'error': 'Error al procesar imagen'}), 500
 
-@app.route('/get-alerts', methods=['POST'])
-def get_alerts():
-    data = request.json
-    lat = data.get('lat')
-    lng = data.get('lng')
+# =============================================
+# 4. APLICACIÓN 2: SISTEMA DE ALERTAS
+# =============================================
+alert_bp = Blueprint('alert_system', __name__, url_prefix='/alerts')
 
-    if not lat or not lng:
-        return jsonify({'error': 'Coordenadas faltantes'}), 400
+@alert_bp.route('/', methods=['GET'])
+def alert_index():
+    return render_template('alerts/index.html')
 
-    alerts = get_location_alerts(lat, lng)
+@alert_bp.route('/check', methods=['POST'])
+def check_alerts():
+    data = request.get_json()
+    
+    # Validación de coordenadas
+    if not data or 'lat' not in data or 'lng' not in data:
+        return jsonify({'error': 'Coordenadas requeridas'}), 400
 
-    return jsonify({
-        'status': 'success',
-        'alerts': alerts
-    })
+    try:
+        lat = float(data['lat'])
+        lng = float(data['lng'])
+    except ValueError:
+        return jsonify({'error': 'Coordenadas inválidas'}), 400
 
+    # Obtener alertas
+    return jsonify(get_weather_alerts(lat, lng))
 
+# =============================================
+# 5. CONFIGURACIÓN FINAL
+# =============================================
+app.register_blueprint(house_bp)
+app.register_blueprint(alert_bp)
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# Manejo de errores
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('error/404.html'), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('error/500.html'), 500
+
+# =============================================
+# INICIO DE LA APLICACIÓN (PRODUCCIÓN)
+# =============================================
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
