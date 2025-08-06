@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHome - Prevención de Desastres Naturales</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="glass-header">
+        <div class="container">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> SafeHome</h1>
+                <p>Protección inteligente para tu hogar</p>
+            </div>
+            <div class="risk-meter">
+                <div class="risk-level" id="globalRiskLevel">
+                    <span>Riesgo Actual: </span>
+                    <strong>Moderado</strong>
+                </div>
+                <div class="risk-visual">
+                    <div class="risk-bar" id="riskBar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Slider Section -->
+        <section class="slider-section">
+            <div class="section-header">
+                <h2>Recomendaciones para tu hogar</h2>
+                <div class="slider-nav">
+                    <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="swiper recommendation-slider">
+                <div class="swiper-wrapper" id="recommendationSlider">
+                    <!-- Slides will be added dynamically -->
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <!-- Risk Map Section -->
+        <section class="map-section">
+            <div class="section-header">
+                <h2>Mapa de Riesgos</h2>
+                <div class="map-controls">
+                    <div class="map-legend">
+                        <div class="legend-item"><span class="legend-high"></span> Alto</div>
+                        <div class="legend-item"><span class="legend-medium"></span> Medio</div>
+                        <div class="legend-item"><span class="legend-low"></span> Bajo</div>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <div id="riskMap"></div>
+                <div class="map-overlay">
+                    <button id="locateMe"><i class="fas fa-location-arrow"></i> Mi ubicación</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Analysis Section -->
+        <section class="upload-section glass-card">
+            <h2>Analiza tu propiedad</h2>
+            <div class="upload-container">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Arrastra una foto de tu casa aquí</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                    <button class="btn-primary">Seleccionar archivo</button>
+                </div>
+                <div class="image-preview hidden" id="imagePreview">
+                    <img id="previewImage" src="" alt="Vista previa">
+                    <div class="image-actions">
+                        <button id="analyzeBtn" class="btn-primary">Analizar imagen</button>
+                        <button id="cancelBtn" class="btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section hidden glass-card" id="resultsSection">
+            <div class="results-header">
+                <h2>Resultados del análisis</h2>
+                <div class="risk-badge" id="riskBadge">Riesgo Moderado</div>
+            </div>
+            <div class="results-grid">
+                <div class="result-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Vulnerabilidades</h3>
+                    <div class="vulnerabilities-list" id="vulnerabilitiesList"></div>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-route"></i> Rutas de evacuación</h3>
+                    <div class="evacuation-routes" id="evacuationRoutes"></div>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-lightbulb"></i> Recomendaciones</h3>
+                    <div class="improvement-tips" id="improvementTips"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-shield-alt"></i> SafeHome</h3>
+                    <p>Protección inteligente contra desastres naturales</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-info-circle"></i> Acerca de</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+                    <a href="#"><i class="fas fa-shield-alt"></i> Privacidad</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 SafeHome. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
