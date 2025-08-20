@@ -69,6 +69,96 @@
             </div>
         </section>
 
+
+        <!-- Nueva sección: Botones de emergencia -->
+<section class="emergency-buttons-section">
+    <div class="section-header">
+        <h2>Alertas y Emergencias</h2>
+        <p>Mantente informado y preparado ante cualquier situación</p>
+    </div>
+    <div class="emergency-buttons">
+        <div class="emergency-btn earthquake-btn" id="earthquakeBtn">
+            <i class="fas fa-seedling"></i>
+            <span class="btn-text">Alertas Sísmicas</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="earthquakeToggle">
+                <span class="slider"></span>
+            </label>
+            <span class="btn-status" id="earthquakeStatus">Inactivo</span>
+        </div>
+        
+        <div class="emergency-btn numbers-btn" id="emergencyNumbersBtn">
+            <i class="fas fa-phone-alt"></i>
+            <span class="btn-text">Números de Emergencia</span>
+            <div class="btn-status">Ver contactos</div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal para números de emergencia -->
+<div class="emergency-modal" id="emergencyModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-phone-alt"></i> Números de Emergencia</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="emergency-list">
+            <div class="emergency-item">
+                <div class="emergency-info">
+                    <span class="emergency-name">Emergencias General</span>
+                    <span class="emergency-description">Policía, bomberos, ambulancia</span>
+                </div>
+                <div class="emergency-number">911</div>
+                <button class="call-btn"><i class="fas fa-phone"></i></button>
+            </div>
+            <div class="emergency-item">
+                <div class="emergency-info">
+                    <span class="emergency-name">Cruz Roja</span>
+                    <span class="emergency-description">Ambulancias y primeros auxilios</span>
+                </div>
+                <div class="emergency-number">065</div>
+                <button class="call-btn"><i class="fas fa-phone"></i></button>
+            </div>
+            <div class="emergency-item">
+                <div class="emergency-info">
+                    <span class="emergency-name">Protección Civil</span>
+                    <span class="emergency-description">Emergencias y desastres naturales</span>
+                </div>
+                <div class="emergency-number">555 123 4567</div>
+                <button class="call-btn"><i class="fas fa-phone"></i></button>
+            </div>
+            <div class="emergency-item">
+                <div class="emergency-info">
+                    <span class="emergency-name">Bomberos</span>
+                    <span class="emergency-description">Incendios y rescates</span>
+                </div>
+                <div class="emergency-number">068</div>
+                <button class="call-btn"><i class="fas fa-phone"></i></button>
+            </div>
+            <div class="emergency-item">
+                <div class="emergency-info">
+                    <span class="emergency-name">Atención COVID-19</span>
+                    <span class="emergency-description">Información y emergencias médicas</span>
+                </div>
+                <div class="emergency-number">555 456 7890</div>
+                <button class="call-btn"><i class="fas fa-phone"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notificación de alerta sísmica -->
+<div class="earthquake-alert" id="earthquakeAlert">
+    <div class="alert-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+            <strong>Alerta Sísmica</strong>
+            <p>Se ha detectado actividad sísmica en tu zona</p>
+        </div>
+    </div>
+    <button class="close-alert">&times;</button>
+</div>
+
         <!-- Image Analysis Section -->
         <section class="upload-section glass-card">
             <h2>Analiza tu propiedad</h2>
