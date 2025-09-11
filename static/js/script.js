@@ -1,328 +1,152 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Swiper
-    const swiper = new Swiper('.recommendation-slider', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.slider-next',
-            prevEl: '.slider-prev',
-        },
-        breakpoints: {
-            768: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 3,
-            }
-        }
-    });
+// Reemplazar la función analyzeBtn click event
+analyzeBtn.addEventListener('click', function() {
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Por favor seleccione una imagen primero');
+        return;
+    }
 
-    // Initialize Map
-    const map = L.map('riskMap').setView([19.4326, -99.1332], 12); // Default to Mexico City
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = 'Analizando...';
+
+    // Crear FormData para enviar la imagen
+    const formData = new FormData();
+    formData.append('image', file);
+
+    // Enviar a nuestro endpoint real
+    fetch('/analyze', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error del servidor: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            showRealAnalysisResults(data);
+        } else {
+            throw new Error(data.error || 'Error desconocido en el análisis');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al analizar la imagen: ' + error.message);
+    })
+    .finally(() => {
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = 'Analizar imagen';
+    });
+});
+
+function showRealAnalysisResults(data) {
+    // Actualizar la interfaz con resultados reales
+    document.getElementById('riskBadge').textContent = `Riesgo ${data.risk_level}`;
+    document.getElementById('riskBadge').className = 'risk-badge ' + 
+        (data.risk_level.includes('Alto') ? 'high-risk' : 
+         data.risk_level.includes('Moderado') ? 'medium-risk' : 'low-risk');
     
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add sample risk zones
-    const highRiskZone = L.circle([19.4326, -99.1332], {
-        color: '#f72585',
-        fillColor: '#f72585',
-        fillOpacity: 0.3,
-        radius: 1000
-    }).addTo(map).bindPopup("Zona de alto riesgo: Inundaciones frecuentes");
-
-    const mediumRiskZone = L.circle([19.4285, -99.1276], {
-        color: '#f77f00',
-        fillColor: '#f77f00',
-        fillOpacity: 0.3,
-        radius: 800
-    }).addTo(map).bindPopup("Zona de riesgo medio: Vientos fuertes");
-
-    // Locate me button
-    document.getElementById('locateMe').addEventListener('click', function() {
-        map.locate({setView: true, maxZoom: 15});
-    });
-
-    map.on('locationfound', function(e) {
-        L.marker(e.latlng).addTo(map)
-            .bindPopup("Tu ubicación actual").openPopup();
-        
-        L.circle(e.latlng, e.accuracy/2).addTo(map);
-    });
-
-    // File upload functionality
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewImage = document.getElementById('previewImage');
-    const analyzeBtn = document.getElementById('analyzeBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-
-    uploadArea.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', handleFileSelect);
-    cancelBtn.addEventListener('click', resetFileInput);
-
-    function handleFileSelect(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        if (!file.type.match('image.*')) {
-            alert('Por favor selecciona una imagen');
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            previewImage.src = event.target.result;
-            uploadArea.classList.add('hidden');
-            imagePreview.classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function resetFileInput() {
-        fileInput.value = '';
-        previewImage.src = '';
-        uploadArea.classList.remove('hidden');
-        imagePreview.classList.add('hidden');
-    }
-
-    // Analyze button functionality
-    analyzeBtn.addEventListener('click', function() {
-        const file = fileInput.files[0];
-        if (!file) return;
-
-        analyzeBtn.disabled = true;
-        analyzeBtn.textContent = 'Analizando...';
-
-        // Simulate API call
-        setTimeout(() => {
-            showAnalysisResults();
-            analyzeBtn.disabled = false;
-            analyzeBtn.textContent = 'Analizar imagen';
-        }, 2000);
-    });
-
-    function showAnalysisResults() {
-        // Sample data - in a real app this would come from your Flask backend
-        const sampleData = {
-            riskLevel: 'Moderado',
-            vulnerabilities: [
-                {
-                    title: 'Techo vulnerable',
-                    description: 'La estructura del techo muestra signos de debilidad que podrían colapsar con vientos fuertes.'
-                },
-                {
-                    title: 'Ventanas sin protección',
-                    description: 'Las ventanas grandes no tienen protección contra huracanes o tormentas.'
-                }
-            ],
-            routes: [
-                {
-                    type: 'Huracán',
-                    description: 'Evacuar hacia el noroeste, alejándose de la costa.',
-                    shelters: ['Escuela Primaria Central (2km)', 'Gimnasio Municipal (3.5km)']
-                },
-                {
-                    type: 'Inundación',
-                    description: 'Dirigirse a zonas elevadas al sur, evitar cruzar corrientes de agua.',
-                    shelters: ['Centro Comunitario Alto (1.5km)', 'Iglesia de la Colina (2.8km)']
-                }
-            ],
-            recommendations: [
-                {
-                    title: 'Refuerzo estructural',
-                    description: 'Considera contratar un ingeniero para evaluar y reforzar la estructura de tu hogar.'
-                },
-                {
-                    title: 'Kit de emergencia',
-                    description: 'Prepara un kit con suministros para al menos 72 horas.'
-                }
-            ]
-        };
-
-        // Update risk badge
-        document.getElementById('riskBadge').textContent = `Riesgo ${sampleData.riskLevel}`;
-        
-        // Update vulnerabilities
-        const vulnerabilitiesList = document.getElementById('vulnerabilitiesList');
-        vulnerabilitiesList.innerHTML = '';
-        sampleData.vulnerabilities.forEach(vuln => {
+    // Actualizar vulnerabilidades
+    const vulnerabilitiesList = document.getElementById('vulnerabilitiesList');
+    vulnerabilitiesList.innerHTML = '';
+    
+    if (data.issues_detected && data.issues_detected.length > 0) {
+        data.issues_detected.forEach(issue => {
             const item = document.createElement('div');
             item.className = 'vulnerability-item';
             item.innerHTML = `
-                <h4>${vuln.title}</h4>
-                <p>${vuln.description}</p>
+                <h4>⚠️ Problema detectado</h4>
+                <p>${issue}</p>
             `;
             vulnerabilitiesList.appendChild(item);
         });
+    } else {
+        vulnerabilitiesList.innerHTML = `
+            <div class="vulnerability-item">
+                <h4>✅ Sin problemas críticos detectados</h4>
+                <p>No se encontraron vulnerabilidades evidentes en la imagen</p>
+            </div>
+        `;
+    }
 
-        // Update evacuation routes
-        const evacuationRoutes = document.getElementById('evacuationRoutes');
-        evacuationRoutes.innerHTML = '';
-        sampleData.routes.forEach(route => {
-            const item = document.createElement('div');
-            item.className = 'route-item';
-            
-            let sheltersHtml = '<ul>';
-            route.shelters.forEach(shelter => {
-                sheltersHtml += `<li>${shelter}</li>`;
-            });
-            sheltersHtml += '</ul>';
-            
-            item.innerHTML = `
-                <h4>${route.type}</h4>
-                <p>${route.description}</p>
-                <div class="shelters">${sheltersHtml}</div>
-            `;
-            evacuationRoutes.appendChild(item);
-        });
-
-        // Update recommendations
-        const improvementTips = document.getElementById('improvementTips');
-        improvementTips.innerHTML = '';
-        sampleData.recommendations.forEach(tip => {
+    // Actualizar recomendaciones
+    const improvementTips = document.getElementById('improvementTips');
+    improvementTips.innerHTML = '';
+    
+    if (data.recommendations && data.recommendations.length > 0) {
+        data.recommendations.forEach(tip => {
             const item = document.createElement('div');
             item.className = 'tip-item';
             item.innerHTML = `
-                <h4>${tip.title}</h4>
-                <p>${tip.description}</p>
+                <h4>💡 Recomendación</h4>
+                <p>${tip}</p>
             `;
             improvementTips.appendChild(item);
         });
-
-        // Show results section
-        document.getElementById('resultsSection').classList.remove('hidden');
-        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-
-        // Update global risk level
-        document.querySelector('#globalRiskLevel strong').textContent = sampleData.riskLevel;
-        document.getElementById('riskBar').style.width = sampleData.riskLevel === 'Alto' ? '80%' : 
-                                                       sampleData.riskLevel === 'Moderado' ? '50%' : '20%';
-    }
-
-    // Add sample recommendations to slider
-    const sampleRecommendations = [
-        {
-            category: 'Estructural',
-            title: 'Refuerza tu techo',
-            content: 'Los techos planos son vulnerables a huracanes. Considera instalar soportes adicionales.',
-            priority: 'Alta'
-        },
-        {
-            category: 'Preparación',
-            title: 'Kit de emergencia',
-            content: 'Prepara un kit con agua, alimentos no perecederos y medicinas para al menos 3 días.',
-            priority: 'Media'
-        },
-        {
-            category: 'Exterior',
-            title: 'Protege ventanas',
-            content: 'Instala contraventanas o películas protectoras para prevenir daños por vientos fuertes.',
-            priority: 'Alta'
-        },
-        {
-            category: 'Seguridad',
-            title: 'Plan familiar',
-            content: 'Establece un punto de encuentro familiar en caso de evacuación.',
-            priority: 'Media'
-        }
-    ];
-
-    const sliderWrapper = document.querySelector('.swiper-wrapper');
-    sampleRecommendations.forEach(rec => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide';
-        slide.innerHTML = `
-            <span class="slide-category">${rec.category}</span>
-            <h4 class="slide-title">${rec.title}</h4>
-            <p class="slide-content">${rec.content}</p>
-            <div class="slide-priority ${rec.priority === 'Alta' ? 'priority-high' : 
-                                        rec.priority === 'Media' ? 'priority-medium' : 'priority-low'}">
-                <i class="fas fa-exclamation-circle"></i>
-                <span>Prioridad ${rec.priority}</span>
+    } else {
+        improvementTips.innerHTML = `
+            <div class="tip-item">
+                <h4>👍 Buen estado</h4>
+                <p>Su propiedad parece estar en buenas condiciones</p>
             </div>
         `;
-        sliderWrapper.appendChild(slide);
+    }
+
+    // Actualizar rutas de evacuación (genéricas basadas en riesgo)
+    const evacuationRoutes = document.getElementById('evacuationRoutes');
+    evacuationRoutes.innerHTML = '';
+    
+    const routes = [];
+    if (data.risk_level.includes('Alto')) {
+        routes.push({
+            type: 'Evacuación Inmediata',
+            description: 'Salga del inmueble y busque un área abierta',
+            shelters: ['Parque más cercano', 'Plaza pública']
+        });
+    }
+    
+    routes.push({
+        type: 'Punto de Encuentro',
+        description: 'Establezca un punto de reunión familiar',
+        shelters: ['Casa de vecino seguro', 'Edificio público cercano']
+    });
+    
+    routes.forEach(route => {
+        const item = document.createElement('div');
+        item.className = 'route-item';
+        
+        let sheltersHtml = '<strong>Refugios sugeridos:</strong><ul>';
+        if (route.shelters && route.shelters.length > 0) {
+            route.shelters.forEach(shelter => {
+                sheltersHtml += `<li>${shelter}</li>`;
+            });
+        }
+        sheltersHtml += '</ul>';
+        
+        item.innerHTML = `
+            <h4>${route.type}</h4>
+            <p>${route.description}</p>
+            <div class="shelters">${sheltersHtml}</div>
+        `;
+        evacuationRoutes.appendChild(item);
     });
 
-    // Reinitialize swiper after adding slides
-    swiper.update();
+    // Mostrar resultados
+    document.getElementById('resultsSection').classList.remove('hidden');
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
 
-    // ===================================================================
-    // NUEVAS FUNCIONALIDADES: BOTONES DE EMERGENCIA
-    // ===================================================================
-
-    // Botón de alertas sísmicas
-    const earthquakeToggle = document.getElementById('earthquakeToggle');
-    const earthquakeStatus = document.getElementById('earthquakeStatus');
-    const earthquakeAlert = document.getElementById('earthquakeAlert');
-    const closeAlertBtn = document.querySelector('.close-alert');
-
-    if (earthquakeToggle) {
-        earthquakeToggle.addEventListener('change', function() {
-            if (this.checked) {
-                earthquakeStatus.textContent = 'Activado';
-                earthquakeStatus.style.color = 'var(--success)';
-                // Simular una alerta después de 3 segundos (solo para demostración)
-                setTimeout(() => {
-                    earthquakeAlert.style.display = 'block';
-                    // Ocultar automáticamente después de 10 segundos
-                    setTimeout(() => {
-                        earthquakeAlert.style.display = 'none';
-                    }, 10000);
-                }, 3000);
-            } else {
-                earthquakeStatus.textContent = 'Inactivo';
-                earthquakeStatus.style.color = '';
-                earthquakeAlert.style.display = 'none';
-            }
-        });
-    }
-
-    if (closeAlertBtn) {
-        closeAlertBtn.addEventListener('click', function() {
-            earthquakeAlert.style.display = 'none';
-        });
-    }
-
-    // Botón de números de emergencia
-    const emergencyNumbersBtn = document.getElementById('emergencyNumbersBtn');
-    const emergencyModal = document.getElementById('emergencyModal');
-    const closeModalBtn = document.querySelector('.close-modal');
-
-    if (emergencyNumbersBtn) {
-        emergencyNumbersBtn.addEventListener('click', function() {
-            emergencyModal.style.display = 'flex';
-        });
-    }
-
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', function() {
-            emergencyModal.style.display = 'none';
-        });
-    }
-
-    // Cerrar modal al hacer clic fuera del contenido
-    if (emergencyModal) {
-        emergencyModal.addEventListener('click', function(e) {
-            if (e.target === emergencyModal) {
-                emergencyModal.style.display = 'none';
-            }
-        });
-    }
-
-    // Botones de llamada (solo simulación)
-    const callButtons = document.querySelectorAll('.call-btn');
-    callButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const number = this.previousElementSibling.textContent;
-            alert(`Llamando a ${number}\n\nNota: Esta es una simulación. En una aplicación real, esto iniciaría una llamada telefónica.`);
-        });
-    });
-});
+    // Actualizar riesgo global
+    document.querySelector('#globalRiskLevel strong').textContent = data.risk_level;
+    
+    // Ajustar barra de riesgo según el nivel
+    let riskWidth = '50%'; // Moderado por defecto
+    if (data.risk_level.includes('Alto')) riskWidth = '80%';
+    if (data.risk_level.includes('Bajo')) riskWidth = '20%';
+    
+    document.getElementById('riskBar').style.width = riskWidth;
+    
+    // Mostrar datos técnicos en consola para depuración
+    console.log('Datos técnicos del análisis:', data.technical_data);
+}
