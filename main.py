@@ -3,9 +3,9 @@ import os
 from werkzeug.utils import secure_filename
 import uuid
 from datetime import datetime
-import cv2
-import numpy as np
 from PIL import Image
+import io
+import base64
 
 # =============================================
 # CONFIGURACIÓN INICIAL PARA RENDER
@@ -23,113 +23,97 @@ app.config.update(
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # =============================================
-# ANÁLISIS REAL DE IMÁGENES CON OPENCV
+# ANÁLISIS REAL DE IMÁGENES CON PILLOW (SIN OpenCV)
 # =============================================
 def analyze_house_image_real(image_path):
-    """Analiza imágenes de viviendas usando procesamiento de imágenes real con OpenCV"""
+    """Analiza imágenes de viviendas usando procesamiento de imágenes con Pillow"""
     try:
-        # Cargar imagen
-        img = cv2.imread(image_path)
-        if img is None:
-            return {"error": "No se pudo cargar la imagen"}
-        
-        # Convertir a escala de grises
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        height, width = img.shape[:2]
-        
-        # 1. Análisis de calidad de imagen
-        laplacian_var = cv2.Laplacian(gray, cv2.CV_64F).var()
-        brightness = np.mean(gray)
-        
-        # 2. Detectar bordes y contornos
-        edges = cv2.Canny(gray, 50, 150)
-        contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        
-        # 3. Filtrar contornos significativos
-        significant_contours = [cnt for cnt in contours if cv2.contourArea(cnt) > 500]
-        
-        # 4. Detectar formas geométricas
-        structural_elements = []
-        for contour in significant_contours:
-            perimeter = cv2.arcLength(contour, True)
-            approx = cv2.approxPolyDP(contour, 0.04 * perimeter, True)
+        # Abrir imagen con Pillow
+        with Image.open(image_path) as img:
+            # Obtener información básica de la imagen
+            width, height = img.size
+            file_size = os.path.getsize(image_path)
             
-            if len(approx) == 4:
-                # Cuadrado/rectángulo (posible ventana, puerta)
-                structural_elements.append({
-                    "type": "rectangular_structure",
-                    "size": cv2.contourArea(contour)
-                })
-            elif len(approx) >= 5:
-                # Forma compleja
-                structural_elements.append({
-                    "type": "complex_structure", 
-                    "size": cv2.contourArea(contour)
-                })
-        
-        # 5. Determinar nivel de riesgo basado en análisis real
-        issues = []
-        recommendations = []
-        
-        # Análisis de calidad de imagen
-        if laplacian_var < 50:
-            issues.append("Imagen de baja calidad o borrosa")
-            recommendations.append("Tome una foto más nítida con buena iluminación")
-        
-        if brightness < 50:
-            issues.append("Imagen demasiado oscura")
-            recommendations.append("Tome la foto con mejor iluminación natural")
-        
-        # Análisis estructural
-        rect_structures = [s for s in structural_elements if s["type"] == "rectangular_structure"]
-        
-        if len(rect_structures) < 2:
-            issues.append("Pocos elementos estructurales visibles")
-            recommendations.append("Capture toda la fachada del inmueble para mejor análisis")
-        
-        # Calcular riesgo basado en los factores
-        risk_score = 0
-        if laplacian_var < 50: risk_score += 1
-        if brightness < 50: risk_score += 1
-        if len(rect_structures) < 2: risk_score += 2
-        
-        if risk_score >= 3:
-            risk_level = "Alto"
-        elif risk_score == 2:
-            risk_level = "Moderado-Alto"
-        elif risk_score == 1:
-            risk_level = "Moderado"
-        else:
-            risk_level = "Bajo"
-        
-        # Si no hay issues específicos pero la imagen es de buena calidad
-        if not issues and len(rect_structures) >= 2:
-            issues.append("Estructura aparentemente estable")
-            recommendations.append("Mantenga revisiones periódicas de su propiedad")
-        
-        # Datos técnicos para transparencia
-        technical_data = {
-            'image_resolution': f"{width}x{height}",
-            'image_quality_score': int(laplacian_var),
-            'brightness_level': int(brightness),
-            'edges_detected': len(significant_contours),
-            'structural_elements': len(structural_elements),
-            'rectangular_structures': len(rect_structures)
-        }
-        
-        return {
-            'status': 'success',
-            'analysis_id': str(uuid.uuid4()),
-            'timestamp': datetime.now().isoformat(),
-            'risk_level': risk_level,
-            'risk_score': risk_score,
-            'issues_detected': issues,
-            'recommendations': recommendations,
-            'technical_data': technical_data
-        }
-        
+            # Convertir a modo RGB si es necesario
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            # Análisis de calidad de imagen
+            # Calcular brillo promedio (aproximado)
+            brightness = calculate_brightness(img)
+            
+            # Analizar aspectos de la imagen para determinar riesgo
+            issues = []
+            recommendations = []
+            
+            # Evaluar calidad de imagen
+            if file_size < 100000:  # Menos de 100KB
+                issues.append("Imagen de baja resolución o calidad")
+                recommendations.append("Tome una foto con mayor resolución para un análisis más preciso")
+            
+            if brightness < 50:
+                issues.append("Imagen demasiado oscura")
+                recommendations.append("Tome la foto con mejor iluminación natural")
+            
+            # Análisis de composición (proporciones)
+            aspect_ratio = width / height
+            if aspect_ratio < 0.5 or aspect_ratio > 2.0:
+                issues.append("Composición de imagen inusual")
+                recommendations.append("Tome la foto mostrando toda la fachada frontal")
+            
+            # Determinar nivel de riesgo basado en el análisis
+            risk_score = 0
+            if file_size < 100000: risk_score += 1
+            if brightness < 50: risk_score += 1
+            if aspect_ratio < 0.5 or aspect_ratio > 2.0: risk_score += 1
+            
+            if risk_score >= 2:
+                risk_level = "Alto"
+            elif risk_score == 1:
+                risk_level = "Moderado"
+            else:
+                risk_level = "Bajo"
+            
+            # Si no hay issues específicos
+            if not issues:
+                issues.append("No se detectaron problemas evidentes en la imagen proporcionada")
+                recommendations.append("Para un análisis más detallado, proporcione múltiples ángulos de la propiedad")
+            
+            # Datos técnicos
+            technical_data = {
+                'image_resolution': f"{width}x{height}",
+                'file_size': f"{file_size/1024:.1f} KB",
+                'brightness_level': f"{brightness:.1f}%",
+                'aspect_ratio': f"{aspect_ratio:.2f}"
+            }
+            
+            return {
+                'status': 'success',
+                'analysis_id': str(uuid.uuid4()),
+                'timestamp': datetime.now().isoformat(),
+                'risk_level': risk_level,
+                'risk_score': risk_score,
+                'issues_detected': issues,
+                'recommendations': recommendations,
+                'technical_data': technical_data
+            }
+            
     except Exception as e:
         return {"error": f"Error en el análisis: {str(e)}"}
+
+def calculate_brightness(img):
+    """Calcula el brillo promedio de una imagen (0-100%)"""
+    # Convertir a escala de grises
+    grayscale = img.convert('L')
+    # Obtener histograma
+    hist = grayscale.histogram()
+    # Calcular brillo promedio
+    pixels = sum(hist)
+    brightness = scale = len(hist)
+    for index in range(0, scale):
+        ratio = hist[index] / pixels
+        brightness += ratio * (-scale + index)
+    return brightness / scale
 
 # =============================================
 # RUTAS PRINCIPALES
