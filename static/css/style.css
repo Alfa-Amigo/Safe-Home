@@ -784,3 +784,60 @@ input:checked + .slider:before {
         grid-template-columns: 1fr;
     }
 }
+/* Estilos para resultados de análisis */
+.high-risk {
+    background: var(--danger);
+}
+
+.medium-risk {
+    background: var(--warning);
+}
+
+.low-risk {
+    background: var(--success);
+}
+
+.risk-badge {
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.technical-data {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.technical-data h4 {
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.data-item {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.data-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.data-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
