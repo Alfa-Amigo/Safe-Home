@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeHome - Detección Avanzada de Grietas</title>
+    <title>SafeHome - Protección Inteligente para tu Hogar</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== PALETA DE COLORES Y VARIABLES ===== */
         :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #3f37c9;
-            --accent: #4895ef;
-            --danger: #f72585;
-            --warning: #f77f00;
-            --success: #4cc9f0;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --glass: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #00A8E8;
+            --accent: #FFD166;
+            --danger: #EF476F;
+            --warning: #FF9E00;
+            --success: #06D6A0;
+            --dark: #26547C;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+            --gradient-secondary: linear-gradient(135deg, #00A8E8 0%, #4CC9F0 100%);
+            --gradient-accent: linear-gradient(135deg, #FFD166 0%, #FFE5A5 100%);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.3);
         }
 
+        /* ===== RESET Y ESTILOS BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -45,13 +50,15 @@
             padding: 20px;
         }
 
-        /* Glassmorphism Effects */
+        /* ===== EFECTOS GLASSMORPHISM ===== */
         .glass-header, .glass-footer, .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         .glass-header {
@@ -71,7 +78,32 @@
             margin-bottom: 30px;
         }
 
-        /* Header Styles */
+        /* ===== ANIMACIONES ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* ===== HEADER MEJORADO ===== */
         .header-content {
             display: flex;
             flex-direction: column;
@@ -80,12 +112,16 @@
         }
 
         .header-content h1 {
-            font-size: 2.5rem;
-            color: var(--primary);
+            font-size: 2.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 5px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
         }
 
         .header-content p {
@@ -93,13 +129,63 @@
             font-size: 1.1rem;
         }
 
+        /* Barra de búsqueda */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-box button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient-primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .search-box button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Risk Meter Mejorado */
         .risk-meter {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
             padding: 15px;
-            background: white;
-            border-radius: 10px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
@@ -116,21 +202,23 @@
         }
 
         .risk-visual {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             overflow: hidden;
+            border: 1px solid var(--glass-border);
         }
 
         .risk-bar {
             height: 100%;
             width: 60%;
-            background: linear-gradient(90deg, var(--success), var(--warning));
-            border-radius: 5px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
             transition: width 0.5s ease;
+            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
         }
 
-        /* Slider Section */
+        /* ===== SLIDER SECTION MEJORADO ===== */
         .slider-section {
             margin-bottom: 40px;
         }
@@ -146,6 +234,10 @@
         .section-header h2 {
             font-size: 1.8rem;
             color: var(--dark);
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .slider-nav {
@@ -154,66 +246,78 @@
         }
 
         .slider-nav button {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background: white;
+            background: var(--gradient-primary);
             border: none;
-            color: var(--primary);
+            color: white;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
             transition: all 0.3s ease;
         }
 
         .slider-nav button:hover {
-            background: var(--primary);
-            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         }
 
         .recommendation-slider {
             width: 100%;
-            height: 300px;
-            border-radius: 15px;
+            height: 320px;
+            border-radius: 20px;
             overflow: hidden;
         }
 
         .swiper-slide {
-            background: white;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .slide-category {
             display: inline-block;
-            padding: 5px 10px;
-            background: var(--accent);
+            padding: 6px 12px;
+            background: var(--gradient-secondary);
             color: white;
             border-radius: 20px;
             font-size: 0.8rem;
             margin-bottom: 15px;
             align-self: flex-start;
+            font-weight: 600;
         }
 
         .slide-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 10px;
             color: var(--dark);
+            font-weight: 600;
         }
 
         .slide-content {
             color: var(--gray);
             margin-bottom: 20px;
             flex-grow: 1;
+            line-height: 1.5;
         }
 
         .slide-priority {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .priority-high {
@@ -228,7 +332,7 @@
             color: var(--success);
         }
 
-        /* Map Section */
+        /* ===== MAP SECTION MEJORADO ===== */
         .map-section {
             margin-bottom: 40px;
         }
@@ -236,9 +340,10 @@
         .map-container {
             position: relative;
             height: 500px;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--glass-border);
         }
 
         #riskMap {
@@ -251,42 +356,55 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         #locateMe {
-            background: white;
+            background: var(--gradient-primary);
             border: none;
-            padding: 10px 15px;
+            padding: 12px 20px;
             border-radius: 30px;
-            color: var(--primary);
-            font-weight: 500;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        #locateMe:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         }
 
         .map-legend {
             display: flex;
             gap: 15px;
-            background: white;
-            padding: 10px 15px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
             border-radius: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .legend-item span {
-            width: 15px;
-            height: 15px;
-            border-radius: 3px;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .legend-high {
@@ -301,7 +419,7 @@
             background: var(--success);
         }
 
-        /* Upload Section */
+        /* ===== UPLOAD SECTION MEJORADO ===== */
         .upload-container {
             display: flex;
             flex-direction: column;
@@ -311,28 +429,36 @@
         .upload-area {
             width: 100%;
             max-width: 600px;
-            padding: 40px;
-            border: 2px dashed var(--gray);
-            border-radius: 15px;
+            padding: 50px;
+            border: 3px dashed var(--gray);
+            border-radius: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
         }
 
         .upload-area:hover {
             border-color: var(--primary);
-            background: rgba(67, 97, 238, 0.05);
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .upload-area i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
         }
 
         .upload-area p {
             color: var(--gray);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
         }
 
         #fileInput {
@@ -340,34 +466,38 @@
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: white;
+            background: var(--gradient-primary);
             border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 500;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            font-size: 1rem;
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
         }
 
         .btn-secondary {
             background: white;
             color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 500;
+            border: 2px solid var(--primary);
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .btn-secondary:hover {
-            background: rgba(67, 97, 238, 0.1);
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-2px);
         }
 
         .image-preview {
@@ -382,7 +512,8 @@
             max-height: 400px;
             border-radius: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--glass-border);
         }
 
         .image-actions {
@@ -391,176 +522,63 @@
             justify-content: center;
         }
 
-        /* Results Section */
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .risk-badge {
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-weight: 600;
-            background: var(--warning);
-            color: white;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .result-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .result-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .vulnerabilities-list, .evacuation-routes, .improvement-tips {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .vulnerability-item, .route-item, .tip-item {
-            padding: 15px;
-            border-radius: 10px;
-            background: #f8f9fa;
-        }
-
-        .vulnerability-item {
-            border-left: 4px solid var(--danger);
-        }
-
-        .route-item {
-            border-left: 4px solid var(--accent);
-        }
-
-        .tip-item {
-            border-left: 4px solid var(--success);
-        }
-
-        .vulnerability-item h4, .route-item h4, .tip-item h4 {
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .vulnerability-item p, .route-item p, .tip-item p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Footer Styles */
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-brand p {
-            color: var(--gray);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid var(--glass-border);
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Nuevos estilos para la sección de análisis mejorada */
+        /* ===== ANÁLISIS MEJORADO ===== */
         .analysis-progress {
             margin: 20px 0;
             text-align: center;
         }
 
         .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--glass-border);
         }
 
         .progress-fill {
             height: 100%;
-            background: var(--primary);
+            background: var(--gradient-primary);
             width: 0%;
             transition: width 0.5s ease;
+            box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
         }
 
         .analysis-details {
-            background: white;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             margin-top: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--glass-border);
         }
 
         .detection-item {
             display: flex;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .detection-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
 
         .detection-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: var(--accent);
-            color: white;
+            background: var(--gradient-accent);
+            color: var(--dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
+            margin-right: 20px;
+            font-size: 1.2rem;
         }
 
         .detection-content {
@@ -568,43 +586,40 @@
         }
 
         .detection-confidence {
-            width: 80px;
+            width: 120px;
             height: 8px;
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 4px;
             overflow: hidden;
-            margin-top: 5px;
+            margin-top: 8px;
         }
 
         .confidence-fill {
             height: 100%;
             background: var(--success);
+            border-radius: 4px;
         }
 
         .analysis-loading {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
         }
 
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-left-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Estilos para los botones de emergencia */
+        /* ===== BOTONES DE EMERGENCIA MEJORADOS ===== */
         .emergency-buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             margin: 40px 0;
             flex-wrap: wrap;
         }
@@ -614,52 +629,55 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 160px;
-            height: 160px;
-            border-radius: 20px;
+            width: 180px;
+            height: 180px;
+            border-radius: 25px;
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
+            animation: float 4s ease-in-out infinite;
         }
 
         .emergency-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
         }
 
         .emergency-btn i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
         .earthquake-btn {
             color: var(--danger);
-            background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(239, 71, 111, 0.15) 0%, rgba(255, 255, 255, 0.25) 100%);
         }
 
         .numbers-btn {
-            color: var(--primary);
-            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+            color: var(--secondary);
+            background: linear-gradient(135deg, rgba(0, 168, 232, 0.15) 0%, rgba(255, 255, 255, 0.25) 100%);
         }
 
         .btn-text {
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 8px;
         }
 
         .btn-status {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             margin-top: 8px;
             opacity: 0.8;
+            font-weight: 500;
         }
 
-        /* Modal de emergencia */
+        /* ===== MODAL DE EMERGENCIA MEJORADO ===== */
         .emergency-modal {
             display: none;
             position: fixed;
@@ -667,136 +685,149 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
             width: 90%;
-            max-width: 500px;
+            max-width: 550px;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 20px;
         }
 
         .modal-header h2 {
             color: var(--dark);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 1.5rem;
         }
 
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--gray);
+            transition: color 0.3s ease;
         }
 
         .close-modal:hover {
-            color: var(--dark);
+            color: var(--danger);
         }
 
         .emergency-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
         }
 
         .emergency-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            transition: background 0.3s;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .emergency-item:hover {
-            background: #f0f0f0;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
         }
 
         .emergency-info {
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
 
         .emergency-name {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .emergency-description {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .emergency-number {
             font-weight: 700;
-            color: var(--danger);
+            color: var(--dark);
             font-size: 1.1rem;
         }
 
+        .emergency-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .emergency-number {
+            font-weight: 800;
+            color: var(--danger);
+            font-size: 1.3rem;
+            margin: 0 15px;
+        }
+
         .call-btn {
-            background: var(--primary);
+            background: var(--gradient-primary);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
         .call-btn:hover {
             background: var(--primary-dark);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
 
-        /* Notificación de terremoto */
+        /* ===== NOTIFICACIÓN DE TERREMOTO MEJORADA ===== */
         .earthquake-alert {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 30px;
+            right: 30px;
             background: var(--danger);
             color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 20px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(239, 71, 111, 0.4);
             z-index: 1000;
             display: none;
-            animation: shake 0.5s ease-in-out infinite;
-            max-width: 300px;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            animation: shake 0.8s ease-in-out infinite;
+            max-width: 350px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .alert-content {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+        }
+
+        .alert-content i {
+            font-size: 1.5rem;
         }
 
         .close-alert {
@@ -804,16 +835,22 @@
             border: none;
             color: white;
             cursor: pointer;
-            margin-left: 10px;
+            margin-left: 15px;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
         }
 
-        /* Toggle switch para notificaciones */
+        .close-alert:hover {
+            transform: scale(1.2);
+        }
+
+        /* ===== TOGGLE SWITCH MEJORADO ===== */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
-            margin-top: 10px;
+            width: 60px;
+            height: 30px;
+            margin-top: 12px;
         }
 
         .toggle-switch input {
@@ -829,43 +866,45 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background: var(--gray);
             transition: .4s;
-            border-radius: 24px;
+            border-radius: 34px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
+            height: 22px;
+            width: 22px;
             left: 4px;
             bottom: 4px;
-            background-color: white;
+            background: white;
             transition: .4s;
             border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         input:checked + .slider {
-            background-color: var(--success);
+            background: var(--success);
         }
 
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(30px);
         }
 
-        /* Visualización de análisis de grietas */
+        /* ===== ANÁLISIS DE GRIETAS MEJORADO ===== */
         .crack-analysis {
-            margin-top: 20px;
+            margin-top: 25px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .analysis-canvas-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
         }
 
@@ -873,54 +912,421 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
         }
 
         .canvas-wrapper h4 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: var(--dark);
+            font-weight: 600;
         }
 
         .analysis-canvas {
-            border: 2px solid var(--primary);
-            border-radius: 10px;
+            border: 3px solid var(--primary);
+            border-radius: 12px;
             max-width: 100%;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .crack-details {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
         }
 
         .crack-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .metric-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
         }
 
         .metric-value {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 800;
             color: var(--primary);
-            margin: 5px 0;
+            margin: 10px 0;
         }
 
         .metric-label {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--gray);
+            font-weight: 500;
         }
 
-        /* Responsive Design */
+        /* ===== RESULTS SECTION MEJORADO ===== */
+        .results-section {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .risk-badge {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .high-risk { background: var(--danger); }
+        .medium-risk { background: var(--warning); }
+        .low-risk { background: var(--success); }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .vulnerabilities-list, .evacuation-routes, .improvement-tips {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .vulnerability-item, .route-item, .tip-item {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+
+        .vulnerability-item:hover, .route-item:hover, .tip-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .vulnerability-item {
+            border-left-color: var(--danger);
+        }
+
+        .route-item {
+            border-left-color: var(--secondary);
+        }
+
+        .tip-item {
+            border-left-color: var(--success);
+        }
+
+        .vulnerability-item h4, .route-item h4, .tip-item h4 {
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .vulnerability-item p, .route-item p, .tip-item p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* ===== CHATBOT STYLES ===== */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+            font-size: 1.5rem;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
+        }
+
+        .chatbot-widget {
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            width: 380px;
+            height: 550px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .chatbot-widget.active {
+            display: flex;
+        }
+
+        .chatbot-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-close:hover {
+            transform: scale(1.2);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 18px;
+            display: flex;
+        }
+
+        .bot-message {
+            justify-content: flex-start;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bot-message .message-content {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            gap: 12px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .chatbot-input input:focus {
+            border-color: var(--primary);
+        }
+
+        .chatbot-input button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient-primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .chatbot-input button:hover {
+            transform: scale(1.1);
+        }
+
+        .voice-listening {
+            animation: pulse 1.5s infinite;
+            background: var(--danger) !important;
+        }
+
+        /* ===== FOOTER MEJORADO ===== */
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.6rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .header-content h1 {
+                font-size: 2.2rem;
+                text-align: center;
+            }
+            
             .section-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -931,48 +1337,156 @@
                 align-self: flex-end;
             }
             
-            .footer-content {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
+            .recommendation-slider {
+                height: 280px;
             }
             
-            .footer-links {
+            .map-container {
+                height: 400px;
+            }
+            
+            .map-overlay {
+                position: static;
+                flex-direction: row;
                 justify-content: center;
+                margin-top: 15px;
             }
             
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .detection-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .detection-icon {
-                margin-right: 0;
-                margin-bottom: 10px;
+            .map-legend {
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             .emergency-buttons {
                 flex-direction: column;
                 align-items: center;
+                gap: 20px;
+            }
+            
+            .emergency-btn {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .chatbot-widget {
+                width: 90%;
+                right: 5%;
+                height: 500px;
+            }
+            
+            .chatbot-toggle {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
             }
             
             .analysis-canvas-container {
                 flex-direction: column;
+                align-items: center;
+            }
+            
+            .canvas-wrapper {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .crack-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .search-box input {
+                border-radius: 25px;
+            }
+            
+            .search-box button {
+                width: 100%;
+                border-radius: 25px;
+                margin-left: 0;
+            }
+            
+            .upload-area {
+                padding: 30px 20px;
+            }
+            
+            .image-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+            
+            .modal-content {
+                padding: 25px 20px;
+                margin: 20px;
+            }
+            
+            .emergency-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .emergency-number {
+                margin: 0;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="glass-header">
         <div class="container">
             <div class="header-content">
                 <h1><i class="fas fa-shield-alt"></i> SafeHome</h1>
                 <p>Protección inteligente para tu hogar</p>
             </div>
+
+            <!-- Barra de Búsqueda Mejorada -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="globalSearch" placeholder="Buscar recomendaciones, emergencias, grietas...">
+                    <button id="globalSearchBtn"><i class="fas fa-search"></i></button>
+                    <button id="globalVoiceSearchBtn"><i class="fas fa-microphone"></i></button>
+                </div>
+            </div>
+
             <div class="risk-meter">
                 <div class="risk-level" id="globalRiskLevel">
                     <span>Riesgo Actual: </span>
@@ -986,7 +1500,7 @@
     </header>
 
     <main class="container">
-        <!-- Slider Section -->
+        <!-- Slider de Recomendaciones -->
         <section class="slider-section">
             <div class="section-header">
                 <h2>Recomendaciones para tu hogar</h2>
@@ -997,13 +1511,13 @@
             </div>
             <div class="swiper recommendation-slider">
                 <div class="swiper-wrapper" id="recommendationSlider">
-                    <!-- Slides will be added dynamically -->
+                    <!-- Slides se cargan dinámicamente -->
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </section>
 
-        <!-- Risk Map Section -->
+        <!-- Mapa de Riesgos -->
         <section class="map-section">
             <div class="section-header">
                 <h2>Mapa de Riesgos</h2>
@@ -1023,7 +1537,7 @@
             </div>
         </section>
 
-        <!-- Image Analysis Section -->
+        <!-- Análisis de Imágenes -->
         <section class="upload-section glass-card">
             <h2>Analiza tu propiedad</h2>
             <p class="analysis-info">Sube una foto de tu casa para detectar grietas, daños estructurales y recibir recomendaciones personalizadas.</p>
@@ -1031,7 +1545,7 @@
             <div class="upload-container">
                 <div class="upload-area" id="uploadArea">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Arrastra una foto de tu casa aquí</p>
+                    <p>Arrastra una foto de tu casa aquí o haz clic para seleccionar</p>
                     <input type="file" id="fileInput" accept="image/*">
                     <button class="btn-primary">Seleccionar archivo</button>
                 </div>
@@ -1044,7 +1558,7 @@
                 </div>
             </div>
 
-            <!-- Análisis en progreso -->
+            <!-- Análisis en Progreso -->
             <div class="analysis-progress hidden" id="analysisProgress">
                 <h3>Analizando imagen...</h3>
                 <div class="progress-bar">
@@ -1053,13 +1567,13 @@
                 <p id="progressText">Preparando modelo de IA</p>
             </div>
 
-            <!-- Detalles del análisis -->
+            <!-- Detalles del Análisis -->
             <div class="analysis-details hidden" id="analysisDetails">
                 <h3>Detalles del análisis</h3>
                 <div id="detectionResults"></div>
             </div>
 
-            <!-- Análisis de grietas -->
+            <!-- Análisis de Grietas -->
             <div class="crack-analysis hidden" id="crackAnalysis">
                 <h3>Análisis detallado de grietas</h3>
                 <div class="analysis-canvas-container">
@@ -1093,7 +1607,7 @@
             </div>
         </section>
 
-        <!-- Botones de emergencia -->
+        <!-- Botones de Emergencia -->
         <section class="emergency-buttons-section">
             <div class="section-header">
                 <h2>Alertas y Emergencias</h2>
@@ -1118,7 +1632,7 @@
             </div>
         </section>
 
-        <!-- Results Section -->
+        <!-- Resultados del Análisis -->
         <section class="results-section hidden glass-card" id="resultsSection">
             <div class="results-header">
                 <h2>Resultados del análisis</h2>
@@ -1141,7 +1655,7 @@
         </section>
     </main>
 
-    <!-- Modal para números de emergencia -->
+    <!-- Modal de Números de Emergencia -->
     <div class="emergency-modal" id="emergencyModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1181,22 +1695,65 @@
                     <div class="emergency-number">57 84 2124</div>
                     <button class="call-btn"><i class="fas fa-phone"></i></button>
                 </div>
+                <div class="emergency-item">
+                    <div class="emergency-info">
+                        <span class="emergency-name">Atención Médica</span>
+                        <span class="emergency-description">Urgencias médicas 24/7</span>
+                    </div>
+                    <div class="emergency-number">55 12 34 56</div>
+                    <button class="call-btn"><i class="fas fa-phone"></i></button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Notificación de alerta sísmica -->
+    <!-- Notificación de Alerta Sísmica -->
     <div class="earthquake-alert" id="earthquakeAlert">
         <div class="alert-content">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
-                <strong>Alerta Sísmica</strong>
-                <p>Se ha detectado actividad sísmica en tu zona</p>
+                <strong>Alerta Sísmica Activada</strong>
+                <p>Se ha detectado actividad sísmica en tu zona. Toma precauciones.</p>
             </div>
         </div>
         <button class="close-alert">&times;</button>
     </div>
 
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbotWidget">
+        <div class="chatbot-header">
+            <h4><i class="fas fa-robot"></i> Asistente SafeHome</h4>
+            <button class="chatbot-close" id="chatbotClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="chat-message bot-message">
+                <div class="message-content">
+                    ¡Hola! 👋 Soy tu asistente de SafeHome.<br><br>
+                    Puedo ayudarte con:<br>
+                    • 📸 <strong>Análisis de grietas</strong><br>
+                    • 🏠 <strong>Recomendaciones estructurales</strong><br>
+                    • 🚨 <strong>Protocolos de emergencia</strong><br>
+                    • 🗺️ <strong>Rutas de evacuación</strong><br>
+                    • 📋 <strong>Kits de seguridad</strong><br><br>
+                    ¿En qué puedo asistirte hoy?
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta...">
+            <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+            <button id="voiceSearchBtn"><i class="fas fa-microphone"></i></button>
+        </div>
+    </div>
+
+    <!-- Botón Flotante del Chatbot -->
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- Footer -->
     <footer class="glass-footer">
         <div class="container">
             <div class="footer-content">
@@ -1208,10 +1765,11 @@
                     <a href="#"><i class="fas fa-info-circle"></i> Acerca de</a>
                     <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
                     <a href="#"><i class="fas fa-shield-alt"></i> Privacidad</a>
+                    <a href="#"><i class="fas fa-file-alt"></i> Términos</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 SafeHome. Todos los derechos reservados.</p>
+                <p>© 2025 SafeHome. Todos los derechos reservados. | Protegiendo hogares, salvando vidas.</p>
             </div>
         </div>
     </footer>
@@ -1219,217 +1777,656 @@
     <!-- JavaScript Libraries -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     
+    <!-- JavaScript Principal -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Swiper
-            const swiper = new Swiper('.recommendation-slider', {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.slider-next',
-                    prevEl: '.slider-prev',
-                },
-                breakpoints: {
-                    768: {
-                        slidesPerView: 2,
+        // ===== CONFIGURACIÓN INICIAL Y VARIABLES GLOBALES =====
+        class SafeHomeApp {
+            constructor() {
+                this.map = null;
+                this.swiper = null;
+                this.chatbot = null;
+                this.isListening = false;
+                this.recognition = null;
+                this.currentAnalysis = null;
+                this.earthquakeAlertsActive = false;
+                this.contentLoaded = false;
+                
+                this.init();
+            }
+
+            // ===== INICIALIZACIÓN PRINCIPAL =====
+            init() {
+                this.initSwiper();
+                this.initMap();
+                this.initChatbot();
+                this.initVoiceRecognition();
+                this.setupEventListeners();
+                this.loadSampleData();
+            }
+
+            // ===== CONFIGURACIÓN DEL SWIPER =====
+            initSwiper() {
+                this.swiper = new Swiper('.recommendation-slider', {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true
                     },
-                    1024: {
-                        slidesPerView: 3,
+                    navigation: {
+                        nextEl: '.slider-next',
+                        prevEl: '.slider-prev',
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 1,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                        }
+                    },
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    effect: 'slide',
+                    speed: 600
+                });
+            }
+
+            // ===== CONFIGURACIÓN DEL MAPA =====
+            initMap() {
+                // Inicializar mapa centrado en México City
+                this.map = L.map('riskMap').setView([19.4326, -99.1332], 12);
+                
+                // Capa base de OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    maxZoom: 18
+                }).addTo(this.map);
+
+                // Agregar zonas de riesgo de ejemplo
+                this.addRiskZones();
+                
+                // Configurar geolocalización
+                this.setupGeolocation();
+            }
+
+            addRiskZones() {
+                // Zona de alto riesgo
+                const highRiskZone = L.circle([19.4326, -99.1332], {
+                    color: '#EF476F',
+                    fillColor: '#EF476F',
+                    fillOpacity: 0.3,
+                    radius: 800
+                }).addTo(this.map).bindPopup(`
+                    <div class="risk-popup">
+                        <h4>🚨 Zona de Alto Riesgo</h4>
+                        <p><strong>Inundaciones frecuentes</strong></p>
+                        <p>Nivel de riesgo: Alto</p>
+                        <p>Recomendación: Evacuar en temporada de lluvias</p>
+                    </div>
+                `);
+
+                // Zona de riesgo medio
+                const mediumRiskZone = L.circle([19.4285, -99.1276], {
+                    color: '#FF9E00',
+                    fillColor: '#FF9E00',
+                    fillOpacity: 0.3,
+                    radius: 600
+                }).addTo(this.map).bindPopup(`
+                    <div class="risk-popup">
+                        <h4>⚠️ Zona de Riesgo Medio</h4>
+                        <p><strong>Vientos fuertes</strong></p>
+                        <p>Nivel de riesgo: Medio</p>
+                        <p>Recomendación: Asegurar objetos exteriores</p>
+                    </div>
+                `);
+
+                // Zona de bajo riesgo
+                const lowRiskZone = L.circle([19.4360, -99.1390], {
+                    color: '#06D6A0',
+                    fillColor: '#06D6A0',
+                    fillOpacity: 0.3,
+                    radius: 500
+                }).addTo(this.map).bindPopup(`
+                    <div class="risk-popup">
+                        <h4>✅ Zona de Bajo Riesgo</h4>
+                        <p><strong>Estable</strong></p>
+                        <p>Nivel de riesgo: Bajo</p>
+                        <p>Recomendación: Mantener medidas preventivas</p>
+                    </div>
+                `);
+            }
+
+            setupGeolocation() {
+                const locateButton = document.getElementById('locateMe');
+                
+                locateButton.addEventListener('click', () => {
+                    this.map.locate({ 
+                        setView: true, 
+                        maxZoom: 16,
+                        enableHighAccuracy: true 
+                    });
+                });
+
+                this.map.on('locationfound', (e) => {
+                    const radius = e.accuracy / 2;
+                    
+                    L.marker(e.latlng)
+                        .addTo(this.map)
+                        .bindPopup(`<b>Tu ubicación actual</b><br>Precisión: ${radius.toFixed(1)} metros`)
+                        .openPopup();
+                    
+                    L.circle(e.latlng, radius)
+                        .addTo(this.map);
+                        
+                    // Obtener alertas meteorológicas para esta ubicación
+                    this.getWeatherAlerts(e.latlng.lat, e.latlng.lng);
+                });
+
+                this.map.on('locationerror', (e) => {
+                    alert('No se pudo obtener tu ubicación. Asegúrate de permitir el acceso a la ubicación.');
+                    console.error('Error de geolocalización:', e.message);
+                });
+            }
+
+            // ===== CHATBOT INTELIGENTE =====
+            initChatbot() {
+                this.setupChatbotUI();
+                this.setupChatbotResponses();
+            }
+
+            setupChatbotUI() {
+                const chatbotToggle = document.getElementById('chatbotToggle');
+                const chatbotClose = document.getElementById('chatbotClose');
+                const chatbotSend = document.getElementById('chatbotSend');
+                const chatbotInput = document.getElementById('chatbotInput');
+                const voiceSearchBtn = document.getElementById('voiceSearchBtn');
+
+                // Toggle del chatbot
+                chatbotToggle.addEventListener('click', () => {
+                    this.toggleChatbot();
+                });
+
+                chatbotClose.addEventListener('click', () => {
+                    this.closeChatbot();
+                });
+
+                // Envío de mensajes
+                chatbotSend.addEventListener('click', () => {
+                    this.sendChatbotMessage();
+                });
+
+                chatbotInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendChatbotMessage();
+                    }
+                });
+
+                // Búsqueda por voz en chatbot
+                voiceSearchBtn.addEventListener('click', () => {
+                    this.toggleVoiceSearch('chatbot');
+                });
+
+                // Búsqueda por voz global
+                const globalVoiceSearchBtn = document.getElementById('globalVoiceSearchBtn');
+                if (globalVoiceSearchBtn) {
+                    globalVoiceSearchBtn.addEventListener('click', () => {
+                        this.toggleVoiceSearch('global');
+                    });
+                }
+
+                // Búsqueda global
+                const globalSearchBtn = document.getElementById('globalSearchBtn');
+                const globalSearchInput = document.getElementById('globalSearch');
+                
+                if (globalSearchBtn && globalSearchInput) {
+                    globalSearchBtn.addEventListener('click', () => {
+                        this.performGlobalSearch(globalSearchInput.value);
+                    });
+
+                    globalSearchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.performGlobalSearch(globalSearchInput.value);
+                        }
+                    });
+                }
+            }
+
+            setupChatbotResponses() {
+                this.chatbotResponses = {
+                    'grieta': {
+                        response: 'Para analizar grietas, sube una foto de la zona afectada en la sección "Analiza tu propiedad". Te daré recomendaciones específicas según el tipo y severidad de las grietas.',
+                        actions: ['showUploadSection']
+                    },
+                    'emergencia': {
+                        response: '🚨 **PROTOCOLO DE EMERGENCIA** 🚨\n\n1. Mantén la calma\n2. Activa alertas sísmicas\n3. Contacta emergencias:\n   • Protección Civil: 56 83 22 22\n   • Bomberos: 57 84 2124\n   • Cruz Roja: 53 95 11 11\n4. Sigue rutas de evacuación',
+                        actions: ['showEmergencyModal']
+                    },
+                    'estructura': {
+                        response: '🔧 **EVALUACIÓN ESTRUCTURAL**\n\nRecomendaciones:\n• Revisar cimientos anualmente\n• Verificar columnas y vigas\n• Consultar ingeniero estructural\n• Monitorear grietas existentes\n• Realizar mantenimiento preventivo',
+                        actions: []
+                    },
+                    'terremoto': {
+                        response: '🏢 **PROTOCOLO SÍSMICO**\n\n**ANTES:**\n• Prepara kit de emergencia\n• Identifica zonas seguras\n• Fija muebles altos\n\n**DURANTE:**\n• Protégete bajo marcos/mesas\n• Aléjate de ventanas\n• No uses ascensores\n\n**DESPUÉS:**\n• Revisa daños estructurales\n• Evacúa si es necesario\n• Reporta emergencias',
+                        actions: []
+                    },
+                    'inundación': {
+                        response: '🌊 **PREVENCIÓN DE INUNDACIONES**\n\n• Instala barreras impermeables\n• Mantén desagües limpios\n• Eleva equipos eléctricos\n• Ten un plan de evacuación\n• Monitorea alertas meteorológicas',
+                        actions: []
+                    },
+                    'kit': {
+                        response: '🎒 **KIT DE EMERGENCIA BÁSICO**\n\n• Agua (4L por persona/día)\n• Alimentos no perecederos\n• Botiquín de primeros auxilios\n• Linterna y radio\n• Documentos importantes\n• Medicamentos\n• Dinero en efectivo\n• Manta térmica',
+                        actions: []
+                    },
+                    'analizar': {
+                        response: 'Para analizar tu propiedad:\n1. Ve a "Analiza tu propiedad"\n2. Sube una foto clara\n3. Espera el análisis de IA\n4. Recibe recomendaciones personalizadas\n\n¿Quieres que te guíe paso a paso?',
+                        actions: ['showUploadSection']
+                    },
+                    'hola': {
+                        response: '¡Hola! 👋 Soy tu asistente de SafeHome.\n\nPuedo ayudarte con:\n• 📸 Análisis de grietas\n• 🏠 Recomendaciones estructurales\n• 🚨 Protocolos de emergencia\n• 🗺️ Rutas de evacuación\n• 📋 Kits de seguridad\n\n¿En qué puedo asistirte hoy?',
+                        actions: []
+                    },
+                    'gracias': {
+                        response: '¡De nada! 😊 Estoy aquí para ayudarte a mantener tu hogar seguro.\n\nRecuerda: La prevención es la mejor protección. ¿En qué más puedo ayudarte?',
+                        actions: []
+                    },
+                    'default': {
+                        response: 'Puedo ayudarte con:\n\n• **Análisis de grietas** - Sube fotos para evaluación\n• **Recomendaciones estructurales** - Mejora la seguridad de tu hogar\n• **Preparación para emergencias** - Protocolos y kits\n• **Alertas meteorológicas** - Monitoreo en tiempo real\n\n¿En qué aspecto específico necesitas ayuda?',
+                        actions: []
+                    }
+                };
+            }
+
+            toggleChatbot() {
+                const widget = document.getElementById('chatbotWidget');
+                widget.classList.toggle('active');
+                
+                if (widget.classList.contains('active')) {
+                    document.getElementById('chatbotInput').focus();
+                }
+            }
+
+            closeChatbot() {
+                const widget = document.getElementById('chatbotWidget');
+                widget.classList.remove('active');
+            }
+
+            sendChatbotMessage() {
+                const input = document.getElementById('chatbotInput');
+                const message = input.value.trim();
+                
+                if (message) {
+                    this.addChatMessage(message, 'user');
+                    this.processChatbotMessage(message);
+                    input.value = '';
+                }
+            }
+
+            addChatMessage(text, sender) {
+                const messagesContainer = document.getElementById('chatbotMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}-message`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${this.formatMessage(text)}</div>
+                `;
+                
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Efecto de escritura para mensajes del bot
+                if (sender === 'bot') {
+                    this.typewriterEffect(messageDiv.querySelector('.message-content'), text);
+                }
+            }
+
+            typewriterEffect(element, text) {
+                element.innerHTML = '';
+                let i = 0;
+                const speed = 20;
+                
+                function typeWriter() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
                     }
                 }
-            });
+                typeWriter();
+            }
 
-            // Initialize Map
-            const map = L.map('riskMap').setView([19.4326, -99.1332], 12); // Default to Mexico City
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+            formatMessage(text) {
+                // Formato básico de markdown
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/(•|▶|✓)\s*(.*?)(?=\n|$)/g, '<span class="list-item">$1 $2</span>');
+            }
 
-            // Add sample risk zones
-            const highRiskZone = L.circle([19.4326, -99.1332], {
-                color: '#f72585',
-                fillColor: '#f72585',
-                fillOpacity: 0.3,
-                radius: 1000
-            }).addTo(map).bindPopup("Zona de alto riesgo: Inundaciones frecuentes");
-
-            const mediumRiskZone = L.circle([19.4285, -99.1276], {
-                color: '#f77f00',
-                fillColor: '#f77f00',
-                fillOpacity: 0.3,
-                radius: 800
-            }).addTo(map).bindPopup("Zona de riesgo medio: Vientos fuertes");
-
-            // Locate me button
-            document.getElementById('locateMe').addEventListener('click', function() {
-                map.locate({setView: true, maxZoom: 15});
-            });
-
-            map.on('locationfound', function(e) {
-                L.marker(e.latlng).addTo(map)
-                    .bindPopup("Tu ubicación actual").openPopup();
+            processChatbotMessage(message) {
+                const lowerMessage = message.toLowerCase();
+                let response = this.chatbotResponses.default;
                 
-                L.circle(e.latlng, e.accuracy/2).addTo(map);
-            });
+                // Buscar coincidencia de palabras clave
+                for (const [keyword, data] of Object.entries(this.chatbotResponses)) {
+                    if (lowerMessage.includes(keyword) && keyword !== 'default') {
+                        response = data;
+                        break;
+                    }
+                }
+                
+                // Simular tiempo de procesamiento
+                setTimeout(() => {
+                    this.addChatMessage(response.response, 'bot');
+                    
+                    // Ejecutar acciones asociadas
+                    response.actions.forEach(action => {
+                        this.executeChatbotAction(action);
+                    });
+                }, 1000);
+            }
 
-            // File upload functionality
-            const uploadArea = document.getElementById('uploadArea');
-            const fileInput = document.getElementById('fileInput');
-            const imagePreview = document.getElementById('imagePreview');
-            const previewImage = document.getElementById('previewImage');
-            const analyzeBtn = document.getElementById('analyzeBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const analysisProgress = document.getElementById('analysisProgress');
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
-            const analysisDetails = document.getElementById('analysisDetails');
-            const detectionResults = document.getElementById('detectionResults');
-            const crackAnalysis = document.getElementById('crackAnalysis');
-            const originalCanvas = document.getElementById('originalCanvas');
-            const crackCanvas = document.getElementById('crackCanvas');
-            const crackCount = document.getElementById('crackCount');
-            const crackLength = document.getElementById('crackLength');
-            const crackSeverity = document.getElementById('crackSeverity');
+            executeChatbotAction(action) {
+                switch(action) {
+                    case 'showUploadSection':
+                        document.querySelector('.upload-section').scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        break;
+                    case 'showEmergencyModal':
+                        this.showEmergencyModal();
+                        break;
+                }
+            }
 
-            uploadArea.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', handleFileSelect);
-            cancelBtn.addEventListener('click', resetFileInput);
+            // ===== BÚSQUEDA POR VOZ =====
+            initVoiceRecognition() {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    this.recognition = new SpeechRecognition();
+                    this.recognition.continuous = false;
+                    this.recognition.interimResults = false;
+                    this.recognition.lang = 'es-ES';
+                    this.recognition.maxAlternatives = 1;
 
-            function handleFileSelect(e) {
+                    this.recognition.onstart = () => {
+                        this.isListening = true;
+                        this.updateVoiceUI(true);
+                    };
+
+                    this.recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        this.processVoiceInput(transcript);
+                    };
+
+                    this.recognition.onerror = (event) => {
+                        console.error('Error en reconocimiento de voz:', event.error);
+                        this.addChatMessage('Lo siento, hubo un error con el reconocimiento de voz. Intenta nuevamente.', 'bot');
+                        this.stopVoiceSearch();
+                    };
+
+                    this.recognition.onend = () => {
+                        this.stopVoiceSearch();
+                    };
+                } else {
+                    console.warn('El reconocimiento de voz no es compatible con este navegador');
+                }
+            }
+
+            toggleVoiceSearch(context = 'chatbot') {
+                if (!this.recognition) {
+                    alert('El reconocimiento de voz no está disponible en tu navegador.');
+                    return;
+                }
+
+                if (this.isListening) {
+                    this.recognition.stop();
+                } else {
+                    this.context = context;
+                    this.recognition.start();
+                }
+            }
+
+            updateVoiceUI(listening) {
+                const voiceButtons = document.querySelectorAll('#voiceSearchBtn, #globalVoiceSearchBtn');
+                
+                voiceButtons.forEach(btn => {
+                    if (listening) {
+                        btn.classList.add('voice-listening');
+                        btn.innerHTML = '<i class="fas fa-circle"></i>';
+                    } else {
+                        btn.classList.remove('voice-listening');
+                        btn.innerHTML = '<i class="fas fa-microphone"></i>';
+                    }
+                });
+
+                if (this.context === 'chatbot' && listening) {
+                    this.addChatMessage('🎤 Escuchando... Habla ahora.', 'bot');
+                }
+            }
+
+            stopVoiceSearch() {
+                this.isListening = false;
+                this.updateVoiceUI(false);
+            }
+
+            processVoiceInput(transcript) {
+                if (this.context === 'chatbot') {
+                    document.getElementById('chatbotInput').value = transcript;
+                    this.addChatMessage(transcript, 'user');
+                    this.processChatbotMessage(transcript);
+                } else if (this.context === 'global') {
+                    document.getElementById('globalSearch').value = transcript;
+                    this.performGlobalSearch(transcript);
+                }
+            }
+
+            performGlobalSearch(query) {
+                if (!query.trim()) return;
+
+                const lowerQuery = query.toLowerCase();
+                
+                // Buscar en diferentes secciones
+                if (lowerQuery.includes('grieta') || lowerQuery.includes('daño') || lowerQuery.includes('estructura')) {
+                    document.querySelector('.upload-section').scrollIntoView({ behavior: 'smooth' });
+                    this.showNotification('🔍 Te llevo a la sección de análisis de grietas');
+                } else if (lowerQuery.includes('emergencia') || lowerQuery.includes('alerta') || lowerQuery.includes('terremoto')) {
+                    this.showEmergencyModal();
+                    this.showNotification('🚨 Abriendo números de emergencia');
+                } else if (lowerQuery.includes('mapa') || lowerQuery.includes('riesgo') || lowerQuery.includes('zona')) {
+                    document.querySelector('.map-section').scrollIntoView({ behavior: 'smooth' });
+                    this.showNotification('🗺️ Mostrando mapa de riesgos');
+                } else if (lowerQuery.includes('recomendación') || lowerQuery.includes('consejo') || lowerQuery.includes('tip')) {
+                    document.querySelector('.slider-section').scrollIntoView({ behavior: 'smooth' });
+                    this.showNotification('💡 Mostrando recomendaciones de seguridad');
+                } else {
+                    // Búsqueda general - abrir chatbot
+                    this.toggleChatbot();
+                    setTimeout(() => {
+                        this.addChatMessage(query, 'user');
+                        this.processChatbotMessage(query);
+                    }, 500);
+                }
+            }
+
+            // ===== ANÁLISIS DE IMÁGENES =====
+            setupImageAnalysis() {
+                const uploadArea = document.getElementById('uploadArea');
+                const fileInput = document.getElementById('fileInput');
+                const analyzeBtn = document.getElementById('analyzeBtn');
+                const cancelBtn = document.getElementById('cancelBtn');
+
+                uploadArea.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+                cancelBtn.addEventListener('click', () => this.resetFileInput());
+                analyzeBtn.addEventListener('click', () => this.analyzeImage());
+            }
+
+            handleFileSelect(e) {
                 const file = e.target.files[0];
                 if (!file) return;
 
                 if (!file.type.match('image.*')) {
-                    alert('Por favor selecciona una imagen');
+                    this.showNotification('❌ Por favor selecciona una imagen válida', 'error');
+                    return;
+                }
+
+                if (file.size > 16 * 1024 * 1024) {
+                    this.showNotification('❌ La imagen es demasiado grande (máximo 16MB)', 'error');
                     return;
                 }
 
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    previewImage.src = event.target.result;
-                    uploadArea.classList.add('hidden');
-                    imagePreview.classList.remove('hidden');
+                reader.onload = (event) => {
+                    document.getElementById('previewImage').src = event.target.result;
+                    document.getElementById('uploadArea').classList.add('hidden');
+                    document.getElementById('imagePreview').classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             }
 
-            function resetFileInput() {
-                fileInput.value = '';
-                previewImage.src = '';
-                uploadArea.classList.remove('hidden');
-                imagePreview.classList.add('hidden');
-                analysisProgress.classList.add('hidden');
-                analysisDetails.classList.add('hidden');
-                crackAnalysis.classList.add('hidden');
+            resetFileInput() {
+                document.getElementById('fileInput').value = '';
+                document.getElementById('previewImage').src = '';
+                document.getElementById('uploadArea').classList.remove('hidden');
+                document.getElementById('imagePreview').classList.add('hidden');
+                document.getElementById('analysisProgress').classList.add('hidden');
+                document.getElementById('analysisDetails').classList.add('hidden');
+                document.getElementById('crackAnalysis').classList.add('hidden');
+                document.getElementById('resultsSection').classList.add('hidden');
             }
 
-            // Analyze button functionality
-            analyzeBtn.addEventListener('click', function() {
-                const file = fileInput.files[0];
+            async analyzeImage() {
+                const file = document.getElementById('fileInput').files[0];
                 if (!file) return;
 
+                const analyzeBtn = document.getElementById('analyzeBtn');
                 analyzeBtn.disabled = true;
                 analyzeBtn.textContent = 'Analizando...';
-                analysisProgress.classList.remove('hidden');
-                progressFill.style.width = '0%';
-                progressText.textContent = 'Preparando modelo de IA';
 
-                // Simulate progress
-                simulateProgress();
+                const progressFill = document.getElementById('progressFill');
+                const progressText = document.getElementById('progressText');
                 
-                // Real analysis with advanced crack detection
-                analyzeImageForCracks(file);
-            });
-
-            function simulateProgress() {
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    progressFill.style.width = `${progress}%`;
-                    
-                    if (progress === 10) progressText.textContent = 'Cargando modelo de detección...';
-                    if (progress === 30) progressText.textContent = 'Analizando estructuras...';
-                    if (progress === 60) progressText.textContent = 'Buscando grietas y daños...';
-                    if (progress === 80) progressText.textContent = 'Generando recomendaciones...';
-                    
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                    }
-                }, 300);
+                document.getElementById('analysisProgress').classList.remove('hidden');
+                
+                // Simular progreso
+                await this.simulateProgress(progressFill, progressText);
+                
+                // Análisis real con detección de grietas
+                await this.analyzeImageForCracks(file);
+                
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = 'Analizar imagen';
             }
 
-            async function analyzeImageForCracks(file) {
+            simulateProgress(progressFill, progressText) {
+                return new Promise((resolve) => {
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 15;
+                        if (progress > 100) progress = 100;
+                        
+                        progressFill.style.width = `${progress}%`;
+                        
+                        if (progress < 20) {
+                            progressText.textContent = '🔍 Cargando modelo de IA...';
+                        } else if (progress < 50) {
+                            progressText.textContent = '🏠 Analizando estructuras...';
+                        } else if (progress < 80) {
+                            progressText.textContent = '📐 Detectando grietas...';
+                        } else {
+                            progressText.textContent = '💡 Generando recomendaciones...';
+                        }
+                        
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            setTimeout(resolve, 500);
+                        }
+                    }, 300);
+                });
+            }
+
+            async analyzeImageForCracks(file) {
                 try {
-                    // Create an image element to work with
                     const img = new Image();
                     img.src = URL.createObjectURL(file);
                     
-                    img.onload = function() {
-                        // Set up canvases
-                        const origCtx = originalCanvas.getContext('2d');
-                        const crackCtx = crackCanvas.getContext('2d');
+                    img.onload = () => {
+                        const origCtx = document.getElementById('originalCanvas').getContext('2d');
+                        const crackCtx = document.getElementById('crackCanvas').getContext('2d');
                         
-                        // Set canvas sizes
+                        // Configurar canvases
                         const maxWidth = 500;
                         const ratio = Math.min(maxWidth / img.width, 1);
-                        originalCanvas.width = crackCanvas.width = img.width * ratio;
-                        originalCanvas.height = crackCanvas.height = img.height * ratio;
+                        const canvasWidth = img.width * ratio;
+                        const canvasHeight = img.height * ratio;
                         
-                        // Draw original image
-                        origCtx.drawImage(img, 0, 0, originalCanvas.width, originalCanvas.height);
+                        [origCtx.canvas, crackCtx.canvas].forEach(canvas => {
+                            canvas.width = canvasWidth;
+                            canvas.height = canvasHeight;
+                        });
                         
-                        // Perform crack detection
-                        const crackData = detectCracks(origCtx, originalCanvas.width, originalCanvas.height);
+                        // Dibujar imagen original
+                        origCtx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                         
-                        // Draw detected cracks
-                        drawCracks(crackCtx, crackData, originalCanvas.width, originalCanvas.height);
+                        // Detectar grietas
+                        const crackData = this.detectCracks(origCtx, canvasWidth, canvasHeight);
                         
-                        // Update metrics
-                        updateCrackMetrics(crackData);
+                        // Dibujar grietas detectadas
+                        this.drawCracks(crackCtx, crackData, canvasWidth, canvasHeight);
                         
-                        // Show results
-                        processAnalysisResults(crackData);
+                        // Actualizar métricas
+                        this.updateCrackMetrics(crackData);
+                        
+                        // Procesar resultados
+                        this.processAnalysisResults(crackData);
                     };
                     
                 } catch (error) {
-                    console.error('Error analyzing image:', error);
-                    // Fallback to simulated analysis
+                    console.error('Error analizando imagen:', error);
+                    // Fallback a análisis simulado
                     setTimeout(() => {
-                        const mockResponse = [
-                            { class: 'crack', score: 0.87 },
-                            { class: 'wall', score: 0.92 },
-                            { class: 'damage', score: 0.75 }
-                        ];
-                        processAnalysisResults(mockResponse);
-                    }, 3000);
+                        const mockData = {
+                            points: Array(150).fill().map(() => ({
+                                x: Math.random() * 500,
+                                y: Math.random() * 500,
+                                strength: Math.random() * 100,
+                                intensity: Math.random() * 255
+                            })),
+                            totalLength: 245.67,
+                            count: 8
+                        };
+                        this.processAnalysisResults(mockData);
+                    }, 2000);
                 }
             }
 
-            function detectCracks(ctx, width, height) {
+            detectCracks(ctx, width, height) {
                 const imageData = ctx.getImageData(0, 0, width, height);
                 const data = imageData.data;
                 const cracks = [];
                 let totalLength = 0;
                 
-                // Edge detection algorithm
+                // Algoritmo simplificado de detección de bordes
                 for (let y = 1; y < height - 1; y++) {
                     for (let x = 1; x < width - 1; x++) {
                         const idx = (y * width + x) * 4;
                         
-                        // Get surrounding pixels
+                        // Calcular diferencia de intensidad con píxeles circundantes
                         const topIdx = ((y - 1) * width + x) * 4;
                         const bottomIdx = ((y + 1) * width + x) * 4;
                         const leftIdx = (y * width + (x - 1)) * 4;
                         const rightIdx = (y * width + (x + 1)) * 4;
                         
-                        // Calculate intensity differences (edge detection)
                         const verticalDiff = Math.abs(
                             (data[topIdx] + data[topIdx + 1] + data[topIdx + 2]) / 3 - 
                             (data[bottomIdx] + data[bottomIdx + 1] + data[bottomIdx + 2]) / 3
@@ -1442,13 +2439,10 @@
                         
                         const edgeStrength = (verticalDiff + horizontalDiff) / 2;
                         
-                        // Check if this pixel is likely part of a crack
-                        if (edgeStrength > 25) { // Threshold for edge detection
-                            // Calculate pixel intensity (convert to grayscale)
+                        // Detectar píxeles de grieta (bordes fuertes en áreas oscuras)
+                        if (edgeStrength > 20) {
                             const intensity = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
-                            
-                            // Crack pixels are typically darker than surroundings
-                            if (intensity < 100) {
+                            if (intensity < 120) {
                                 cracks.push({
                                     x: x,
                                     y: y,
@@ -1464,311 +2458,540 @@
                 return {
                     points: cracks,
                     totalLength: totalLength,
-                    count: Math.round(cracks.length / 100) // Estimate number of cracks
+                    count: Math.max(1, Math.round(cracks.length / 50))
                 };
             }
 
-            function drawCracks(ctx, crackData, width, height) {
-                // Clear canvas
+            drawCracks(ctx, crackData, width, height) {
                 ctx.clearRect(0, 0, width, height);
                 
-                // Draw original image faintly in background
+                // Dibujar imagen original de fondo
                 ctx.globalAlpha = 0.3;
-                ctx.drawImage(originalCanvas, 0, 0);
+                ctx.drawImage(document.getElementById('originalCanvas'), 0, 0);
                 ctx.globalAlpha = 1.0;
                 
-                // Draw cracks
+                // Dibujar grietas
                 if (crackData.points.length > 0) {
-                    ctx.fillStyle = '#f72585'; // Red color for cracks
+                    ctx.fillStyle = '#EF476F';
                     
-                    for (const point of crackData.points) {
-                        // Size based on crack strength
-                        const size = Math.max(1, Math.min(3, point.strength / 30));
+                    crackData.points.forEach(point => {
+                        const size = Math.max(1, Math.min(4, point.strength / 25));
                         ctx.fillRect(point.x, point.y, size, size);
-                    }
+                    });
                 }
             }
 
-            function updateCrackMetrics(crackData) {
-                crackCount.textContent = crackData.count;
+            updateCrackMetrics(crackData) {
+                document.getElementById('crackCount').textContent = crackData.count;
                 
-                // Estimate length in cm (assuming some scale)
-                const estimatedLength = (crackData.totalLength / 100).toFixed(1);
-                crackLength.textContent = `${estimatedLength} cm`;
+                const estimatedLength = (crackData.totalLength / 80).toFixed(1);
+                document.getElementById('crackLength').textContent = `${estimatedLength} cm`;
                 
-                // Determine severity
                 let severity = "Baja";
                 if (crackData.count > 10) severity = "Alta";
                 else if (crackData.count > 5) severity = "Media";
                 
-                crackSeverity.textContent = severity;
-                
-                // Show crack analysis section
-                crackAnalysis.classList.remove('hidden');
+                document.getElementById('crackSeverity').textContent = severity;
+                document.getElementById('crackAnalysis').classList.remove('hidden');
             }
 
-            function processAnalysisResults(crackData) {
-                // Update progress to 100%
-                progressFill.style.width = '100%';
-                progressText.textContent = 'Análisis completado';
+            processAnalysisResults(crackData) {
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = '✅ Análisis completado';
                 
-                // Show analysis details
-                analysisDetails.classList.remove('hidden');
+                document.getElementById('analysisDetails').classList.remove('hidden');
                 
-                // Display detection results
+                const detectionResults = document.getElementById('detectionResults');
                 detectionResults.innerHTML = '';
                 
                 if (crackData.count > 0) {
                     const detectionItem = document.createElement('div');
                     detectionItem.className = 'detection-item';
-                    
                     detectionItem.innerHTML = `
                         <div class="detection-icon">
                             <i class="fas fa-crack"></i>
                         </div>
                         <div class="detection-content">
                             <h4>Grietas estructurales detectadas</h4>
-                            <p>Se han identificado ${crackData.count} grietas con una longitud total de ${crackLength.textContent}</p>
+                            <p>Se han identificado ${crackData.count} grietas con una longitud total de ${document.getElementById('crackLength').textContent}</p>
                             <div class="detection-confidence">
-                                <div class="confidence-fill" style="width: ${Math.min(100, crackData.count * 10)}%"></div>
+                                <div class="confidence-fill" style="width: ${Math.min(100, crackData.count * 12)}%"></div>
                             </div>
-                            <small>Severidad: ${crackSeverity.textContent}</small>
+                            <small>Severidad: ${document.getElementById('crackSeverity').textContent}</small>
                         </div>
                     `;
-                    
                     detectionResults.appendChild(detectionItem);
-                    
-                    // Show full results after analysis
-                    setTimeout(() => {
-                        showAnalysisResults(crackData);
-                        analyzeBtn.disabled = false;
-                        analyzeBtn.textContent = 'Analizar imagen';
-                    }, 1000);
                 } else {
-                    detectionResults.innerHTML = '<p>No se detectaron grietas estructurales significativas.</p>';
-                    
-                    // Show generic results
-                    setTimeout(() => {
-                        showAnalysisResults();
-                        analyzeBtn.disabled = false;
-                        analyzeBtn.textContent = 'Analizar imagen';
-                    }, 1000);
+                    detectionResults.innerHTML = `
+                        <div class="detection-item">
+                            <div class="detection-icon" style="background: var(--success);">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="detection-content">
+                                <h4>Sin grietas significativas</h4>
+                                <p>No se detectaron grietas estructurales preocupantes en la imagen analizada.</p>
+                            </div>
+                        </div>
+                    `;
                 }
+                
+                // Mostrar resultados completos
+                setTimeout(() => {
+                    this.showAnalysisResults(crackData);
+                }, 1000);
             }
 
-            function showAnalysisResults(analysisData = null) {
-                // Sample data - in a real app this would come from your analysis
-                const sampleData = {
-                    riskLevel: analysisData && analysisData.count > 0 ? 'Moderado' : 'Bajo',
+            showAnalysisResults(analysisData = null) {
+                const riskLevel = analysisData && analysisData.count > 5 ? 'Alto' : 
+                                 analysisData && analysisData.count > 2 ? 'Moderado' : 'Bajo';
+                
+                const results = {
+                    riskLevel: riskLevel,
                     vulnerabilities: [
                         {
-                            title: 'Grietas detectadas',
-                            description: 'Se encontraron grietas en la estructura que podrían indicar daños.'
+                            title: analysisData && analysisData.count > 0 ? 'Grietas detectadas' : 'Sin grietas críticas',
+                            description: analysisData && analysisData.count > 0 ? 
+                                'Se encontraron grietas en la estructura que requieren evaluación profesional.' :
+                                'La estructura aparenta estar en buen estado. Mantén revisiones periódicas.'
                         },
                         {
                             title: 'Ventanas sin protección',
-                            description: 'Las ventanas grandes no tienen protección contra huracanes o tormentas.'
+                            description: 'Considera instalar películas de seguridad en ventanas grandes.'
                         }
                     ],
                     routes: [
                         {
                             type: 'Evacuación general',
-                            description: 'Salir por la ruta más segura y dirigirse a zonas elevadas.',
+                            description: 'Ruta principal hacia zonas seguras elevadas.',
                             shelters: ['Escuela Primaria Central (2km)', 'Gimnasio Municipal (3.5km)']
                         }
                     ],
                     recommendations: [
                         {
-                            title: 'Reparación de grietas',
-                            description: 'Contrata a un especialista para evaluar y reparar las grietas estructurales.'
+                            title: analysisData && analysisData.count > 0 ? 'Evaluación profesional' : 'Mantenimiento preventivo',
+                            description: analysisData && analysisData.count > 0 ?
+                                'Consulta con un ingeniero estructural para evaluación detallada.' :
+                                'Continúa con revisiones periódicas y mantenimiento preventivo.'
                         },
                         {
                             title: 'Kit de emergencia',
-                            description: 'Prepara un kit con suministros para al menos 72 horas.'
+                            description: 'Actualiza tu kit de emergencia cada 6 meses.'
                         }
                     ]
                 };
 
-                // If we have real analysis data, modify the sample data
-                if (analysisData) {
-                    if (analysisData.count > 5) {
-                        sampleData.riskLevel = 'Alto';
-                        sampleData.vulnerabilities[0].title = 'Múltiples grietas estructurales';
-                        sampleData.vulnerabilities[0].description = 'Se detectaron múltiples grietas que requieren atención inmediata.';
-                    }
-                }
-
-                // Update risk badge
-                document.getElementById('riskBadge').textContent = `Riesgo ${sampleData.riskLevel}`;
+                // Actualizar interfaz
+                this.updateResultsUI(results);
                 
-                // Update vulnerabilities
+                // Mostrar sección de resultados
+                document.getElementById('resultsSection').classList.remove('hidden');
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+                
+                // Actualizar riesgo global
+                this.updateGlobalRiskLevel(riskLevel);
+            }
+
+            updateResultsUI(results) {
+                // Badge de riesgo
+                const riskBadge = document.getElementById('riskBadge');
+                riskBadge.textContent = `Riesgo ${results.riskLevel}`;
+                riskBadge.className = `risk-badge ${results.riskLevel.toLowerCase()}-risk`;
+                
+                // Vulnerabilidades
                 const vulnerabilitiesList = document.getElementById('vulnerabilitiesList');
                 vulnerabilitiesList.innerHTML = '';
-                sampleData.vulnerabilities.forEach(vuln => {
+                results.vulnerabilities.forEach(vuln => {
                     const item = document.createElement('div');
                     item.className = 'vulnerability-item';
-                    item.innerHTML = `
-                        <h4>${vuln.title}</h4>
-                        <p>${vuln.description}</p>
-                    `;
+                    item.innerHTML = `<h4>${vuln.title}</h4><p>${vuln.description}</p>`;
                     vulnerabilitiesList.appendChild(item);
                 });
-
-                // Update evacuation routes
+                
+                // Rutas de evacuación
                 const evacuationRoutes = document.getElementById('evacuationRoutes');
                 evacuationRoutes.innerHTML = '';
-                sampleData.routes.forEach(route => {
+                results.routes.forEach(route => {
+                    const sheltersHtml = route.shelters.map(shelter => `<li>${shelter}</li>`).join('');
                     const item = document.createElement('div');
                     item.className = 'route-item';
-                    
-                    let sheltersHtml = '<ul>';
-                    route.shelters.forEach(shelter => {
-                        sheltersHtml += `<li>${shelter}</li>`;
-                    });
-                    sheltersHtml += '</ul>';
-                    
                     item.innerHTML = `
                         <h4>${route.type}</h4>
                         <p>${route.description}</p>
-                        <div class="shelters">${sheltersHtml}</div>
+                        <ul>${sheltersHtml}</ul>
                     `;
                     evacuationRoutes.appendChild(item);
                 });
-
-                // Update recommendations
+                
+                // Recomendaciones
                 const improvementTips = document.getElementById('improvementTips');
                 improvementTips.innerHTML = '';
-                sampleData.recommendations.forEach(tip => {
+                results.recommendations.forEach(tip => {
                     const item = document.createElement('div');
                     item.className = 'tip-item';
-                    item.innerHTML = `
-                        <h4>${tip.title}</h4>
-                        <p>${tip.description}</p>
-                    `;
+                    item.innerHTML = `<h4>${tip.title}</h4><p>${tip.description}</p>`;
                     improvementTips.appendChild(item);
                 });
-
-                // Show results section
-                document.getElementById('resultsSection').classList.remove('hidden');
-                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-
-                // Update global risk level
-                document.querySelector('#globalRiskLevel strong').textContent = sampleData.riskLevel;
-                document.getElementById('riskBar').style.width = sampleData.riskLevel === 'Alto' ? '80%' : 
-                                                               sampleData.riskLevel === 'Moderado' ? '50%' : '20%';
             }
 
-            // Add sample recommendations to slider
-            const sampleRecommendations = [
-                {
-                    category: 'Estructural',
-                    title: 'Refuerza tu techo',
-                    content: 'Los techos planos son vulnerables a huracanes. Considera instalar soportes adicionales.',
-                    priority: 'Alta'
-                },
-                {
-                    category: 'Preparación',
-                    title: 'Kit de emergencia',
-                    content: 'Prepara un kit con agua, alimentos no perecederos y medicinas para al menos 3 días.',
-                    priority: 'Media'
-                },
-                {
-                    category: 'Exterior',
-                    title: 'Protege ventanas',
-                    content: 'Instala contraventanas o películas protectoras para prevenir daños por vientos fuertes.',
-                    priority: 'Alta'
-                },
-                {
-                    category: 'Seguridad',
-                    title: 'Plan familiar',
-                    content: 'Establece un punto de encuentro familiar en caso de evacuación.',
-                    priority: 'Media'
+            updateGlobalRiskLevel(riskLevel) {
+                document.querySelector('#globalRiskLevel strong').textContent = riskLevel;
+                const riskBar = document.getElementById('riskBar');
+                
+                if (riskLevel === 'Alto') {
+                    riskBar.style.width = '85%';
+                    riskBar.style.background = 'var(--danger)';
+                } else if (riskLevel === 'Moderado') {
+                    riskBar.style.width = '55%';
+                    riskBar.style.background = 'var(--warning)';
+                } else {
+                    riskBar.style.width = '25%';
+                    riskBar.style.background = 'var(--success)';
                 }
-            ];
+            }
 
-            const sliderWrapper = document.querySelector('.swiper-wrapper');
-            sampleRecommendations.forEach(rec => {
-                const slide = document.createElement('div');
-                slide.className = 'swiper-slide';
-                slide.innerHTML = `
-                    <span class="slide-category">${rec.category}</span>
-                    <h4 class="slide-title">${rec.title}</h4>
-                    <p class="slide-content">${rec.content}</p>
-                    <div class="slide-priority ${rec.priority === 'Alta' ? 'priority-high' : 
-                                                rec.priority === 'Media' ? 'priority-medium' : 'priority-low'}">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>Prioridad ${rec.priority}</span>
+            // ===== SISTEMA DE ALERTAS =====
+            setupAlertSystem() {
+                const earthquakeToggle = document.getElementById('earthquakeToggle');
+                const earthquakeStatus = document.getElementById('earthquakeStatus');
+                const emergencyNumbersBtn = document.getElementById('emergencyNumbersBtn');
+
+                // Toggle de alertas sísmicas
+                if (earthquakeToggle) {
+                    earthquakeToggle.addEventListener('change', (e) => {
+                        this.earthquakeAlertsActive = e.target.checked;
+                        earthquakeStatus.textContent = this.earthquakeAlertsActive ? 'Activado' : 'Inactivo';
+                        earthquakeStatus.style.color = this.earthquakeAlertsActive ? 'var(--success)' : '';
+                        
+                        if (this.earthquakeAlertsActive) {
+                            this.showNotification('🔔 Alertas sísmicas activadas');
+                            // Simular alerta después de 5 segundos (demo)
+                            setTimeout(() => {
+                                this.showEarthquakeAlert();
+                            }, 5000);
+                        }
+                    });
+                }
+
+                // Botón de números de emergencia
+                if (emergencyNumbersBtn) {
+                    emergencyNumbersBtn.addEventListener('click', () => {
+                        this.showEmergencyModal();
+                    });
+                }
+
+                // Cerrar alerta de terremoto
+                document.querySelector('.close-alert')?.addEventListener('click', () => {
+                    this.hideEarthquakeAlert();
+                });
+
+                // Botones de llamada
+                document.querySelectorAll('.call-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const number = e.target.closest('.emergency-item').querySelector('.emergency-number').textContent;
+                        this.simulateCall(number);
+                    });
+                });
+
+                // Cerrar modal de emergencia
+                document.querySelector('.close-modal')?.addEventListener('click', () => {
+                    this.hideEmergencyModal();
+                });
+
+                // Cerrar modal al hacer clic fuera
+                document.getElementById('emergencyModal')?.addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('emergencyModal')) {
+                        this.hideEmergencyModal();
+                    }
+                });
+            }
+
+            showEarthquakeAlert() {
+                if (!this.earthquakeAlertsActive) return;
+                
+                const alert = document.getElementById('earthquakeAlert');
+                alert.style.display = 'block';
+                
+                // Sonido de alerta (opcional)
+                this.playAlertSound();
+                
+                // Ocultar automáticamente después de 15 segundos
+                setTimeout(() => {
+                    this.hideEarthquakeAlert();
+                }, 15000);
+            }
+
+            hideEarthquakeAlert() {
+                document.getElementById('earthquakeAlert').style.display = 'none';
+            }
+
+            showEmergencyModal() {
+                document.getElementById('emergencyModal').style.display = 'flex';
+            }
+
+            hideEmergencyModal() {
+                document.getElementById('emergencyModal').style.display = 'none';
+            }
+
+            simulateCall(number) {
+                this.showNotification(`📞 Llamando a ${number}...\n\nNota: Esta es una simulación. En una aplicación real se iniciaría la llamada.`);
+            }
+
+            playAlertSound() {
+                // Crear sonido de alerta simple usando Web Audio API
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                } catch (error) {
+                    console.log('Audio no disponible:', error);
+                }
+            }
+
+            // ===== ALERTAS METEOROLÓGICAS =====
+            async getWeatherAlerts(lat, lng) {
+                try {
+                    // Simulación de API de clima
+                    const mockAlerts = this.generateMockWeatherAlerts(lat, lng);
+                    
+                    if (mockAlerts.length > 0) {
+                        this.showNotification(`🌦️ ${mockAlerts.length} alerta(s) meteorológica(s) para tu zona`);
+                        
+                        // Agregar marcador de alerta en el mapa
+                        L.marker([lat, lng])
+                            .addTo(this.map)
+                            .bindPopup(`
+                                <div class="weather-alert-popup">
+                                    <h4>⚠️ Alertas Meteorológicas</h4>
+                                    ${mockAlerts.map(alert => `
+                                        <p><strong>${alert.type}:</strong> ${alert.description}</p>
+                                    `).join('')}
+                                </div>
+                            `)
+                            .openPopup();
+                    }
+                } catch (error) {
+                    console.error('Error obteniendo alertas meteorológicas:', error);
+                }
+            }
+
+            generateMockWeatherAlerts(lat, lng) {
+                const alerts = [];
+                const conditions = ['Lluvia intensa', 'Vientos fuertes', 'Tormenta eléctrica', 'Granizo'];
+                const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+                
+                if (Math.random() > 0.5) {
+                    alerts.push({
+                        type: randomCondition,
+                        description: 'Se esperan condiciones adversas en las próximas horas',
+                        severity: 'Moderada',
+                        time: new Date().toLocaleTimeString()
+                    });
+                }
+                
+                return alerts;
+            }
+
+            // ===== NOTIFICACIONES =====
+            showNotification(message, type = 'info') {
+                // Crear elemento de notificación
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <span>${message}</span>
+                        <button class="notification-close">&times;</button>
                     </div>
                 `;
-                sliderWrapper.appendChild(slide);
-            });
-
-            // Reinitialize swiper after adding slides
-            swiper.update();
-
-            // Botones de emergencia
-            const earthquakeToggle = document.getElementById('earthquakeToggle');
-            const earthquakeStatus = document.getElementById('earthquakeStatus');
-            const earthquakeAlert = document.getElementById('earthquakeAlert');
-            const closeAlertBtn = document.querySelector('.close-alert');
-            const emergencyNumbersBtn = document.getElementById('emergencyNumbersBtn');
-            const emergencyModal = document.getElementById('emergencyModal');
-            const closeModalBtn = document.querySelector('.close-modal');
-
-            if (earthquakeToggle) {
-                earthquakeToggle.addEventListener('change', function() {
-                    if (this.checked) {
-                        earthquakeStatus.textContent = 'Activado';
-                        earthquakeStatus.style.color = 'var(--success)';
-                        setTimeout(() => {
-                            earthquakeAlert.style.display = 'block';
-                            setTimeout(() => {
-                                earthquakeAlert.style.display = 'none';
-                            }, 10000);
-                        }, 3000);
-                    } else {
-                        earthquakeStatus.textContent = 'Inactivo';
-                        earthquakeStatus.style.color = '';
-                        earthquakeAlert.style.display = 'none';
+                
+                // Estilos para la notificación
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'error' ? 'var(--danger)' : 'var(--primary)'};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    max-width: 400px;
+                    text-align: center;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto-eliminar después de 5 segundos
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 5000);
+                
+                // Cerrar al hacer clic
+                notification.querySelector('.notification-close').addEventListener('click', () => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
                     }
                 });
             }
 
-            if (closeAlertBtn) {
-                closeAlertBtn.addEventListener('click', function() {
-                    earthquakeAlert.style.display = 'none';
-                });
+            // ===== CARGA DE DATOS DE EJEMPLO =====
+            loadSampleData() {
+                this.loadSampleRecommendations();
+                this.setupImageAnalysis();
+                this.setupAlertSystem();
             }
 
-            if (emergencyNumbersBtn) {
-                emergencyNumbersBtn.addEventListener('click', function() {
-                    emergencyModal.style.display = 'flex';
+            loadSampleRecommendations() {
+                const sampleRecommendations = [
+                    {
+                        category: 'Estructural',
+                        title: 'Refuerza tu techo',
+                        content: 'Los techos planos son vulnerables a huracanes. Considera instalar soportes adicionales y revisar la estructura cada 2 años.',
+                        priority: 'Alta',
+                        icon: 'fa-house-damage'
+                    },
+                    {
+                        category: 'Preparación',
+                        title: 'Kit de emergencia',
+                        content: 'Prepara un kit con agua, alimentos no perecederos, medicinas y documentos importantes para al menos 3 días.',
+                        priority: 'Media',
+                        icon: 'fa-first-aid'
+                    },
+                    {
+                        category: 'Exterior',
+                        title: 'Protege ventanas',
+                        content: 'Instala contraventanas o películas protectoras para prevenir daños por vientos fuertes y proyectiles.',
+                        priority: 'Alta',
+                        icon: 'fa-window-maximize'
+                    },
+                    {
+                        category: 'Seguridad',
+                        title: 'Plan familiar',
+                        content: 'Establece un punto de encuentro familiar y rutas de evacuación en caso de emergencia.',
+                        priority: 'Media',
+                        icon: 'fa-people-arrows'
+                    },
+                    {
+                        category: 'Prevención',
+                        title: 'Mantenimiento regular',
+                        content: 'Realiza inspecciones trimestrales de grietas, humedades y daños estructurales.',
+                        priority: 'Baja',
+                        icon: 'fa-tools'
+                    },
+                    {
+                        category: 'Tecnología',
+                        title: 'Sistema de alertas',
+                        content: 'Instala sensores de movimiento y sistemas de alerta temprana para terremotos e inundaciones.',
+                        priority: 'Media',
+                        icon: 'fa-bell'
+                    }
+                ];
+
+                const sliderWrapper = document.querySelector('.swiper-wrapper');
+                sliderWrapper.innerHTML = '';
+
+                sampleRecommendations.forEach(rec => {
+                    const slide = document.createElement('div');
+                    slide.className = 'swiper-slide';
+                    slide.innerHTML = `
+                        <span class="slide-category">${rec.category}</span>
+                        <h4 class="slide-title">${rec.title}</h4>
+                        <p class="slide-content">${rec.content}</p>
+                        <div class="slide-priority ${rec.priority === 'Alta' ? 'priority-high' : 
+                                                rec.priority === 'Media' ? 'priority-medium' : 'priority-low'}">
+                            <i class="fas ${rec.icon}"></i>
+                            <span>Prioridad ${rec.priority}</span>
+                        </div>
+                    `;
+                    sliderWrapper.appendChild(slide);
                 });
+
+                // Actualizar swiper
+                if (this.swiper) {
+                    this.swiper.update();
+                }
             }
 
-            if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', function() {
-                    emergencyModal.style.display = 'none';
-                });
-            }
-
-            if (emergencyModal) {
-                emergencyModal.addEventListener('click', function(e) {
-                    if (e.target === emergencyModal) {
-                        emergencyModal.style.display = 'none';
+            // ===== CONFIGURACIÓN DE EVENT LISTENERS =====
+            setupEventListeners() {
+                // Prevenir envío de formularios
+                document.addEventListener('submit', (e) => e.preventDefault());
+                
+                // Mejorar accesibilidad
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeChatbot();
+                        this.hideEmergencyModal();
+                        this.hideEarthquakeAlert();
                     }
                 });
+                
+                // Cargar más recomendaciones al hacer scroll
+                window.addEventListener('scroll', this.handleScroll.bind(this));
             }
 
-            // Botones de llamada (solo simulación)
-            const callButtons = document.querySelectorAll('.call-btn');
-            callButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const number = this.previousElementSibling.textContent;
-                    alert(`Llamando a ${number}\n\nNota: Esta es una simulación. En una aplicación real, esto iniciaría una llamada telefónica.`);
-                });
-            });
+            handleScroll() {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Cargar más contenido cuando el usuario llega al final
+                if (scrollPosition >= documentHeight - 500) {
+                    this.loadMoreContent();
+                }
+            }
+
+            loadMoreContent() {
+                // Simular carga de contenido adicional
+                if (!this.contentLoaded) {
+                    this.showNotification('📚 Cargando más recomendaciones...');
+                    setTimeout(() => {
+                        this.loadSampleRecommendations();
+                        this.contentLoaded = true;
+                    }, 1000);
+                }
+            }
+        }
+
+        // ===== INICIALIZACIÓN DE LA APLICACIÓN =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar la aplicación
+            window.safeHomeApp = new SafeHomeApp();
+            
+            // Mostrar mensaje de bienvenida
+            setTimeout(() => {
+                window.safeHomeApp.showNotification('🚀 SafeHome cargado correctamente. ¡Tu hogar más seguro!');
+            }, 1000);
         });
+
+        // ===== MANEJO DE ERRORES GLOBALES =====
+        window.addEventListener('error', function(e) {
+            console.error('Error global:', e.error);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Promise rechazada:', e.reason);
+        });
+
+        // ===== COMPATIBILIDAD CON NAVEGADORES ANTIGUOS =====
+        if (!Element.prototype.scrollIntoView) {
+            Element.prototype.scrollIntoView = function() {
+                window.scrollTo(0, this.offsetTop);
+            };
+        }
     </script>
 </body>
 </html>
