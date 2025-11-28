@@ -278,105 +278,6 @@ body {
     box-shadow: 0 2px 10px rgba(0, 172, 193, 0.5);
 }
 
-/* ===== SLIDER DE IMÁGENES RELACIONADAS MEJORADO ===== */
-.image-slider-section {
-    margin-bottom: 40px;
-}
-
-.image-slider {
-    width: 100%;
-    height: 350px;
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-}
-
-.image-slider .swiper-slide {
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-}
-
-.image-slider .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
-}
-
-.image-slider .swiper-slide:hover img {
-    transform: scale(1.05);
-}
-
-.image-slide-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    color: white;
-    padding: 25px;
-    transform: translateY(0);
-    transition: transform 0.3s ease;
-}
-
-.image-slider .swiper-slide:hover .image-slide-content {
-    transform: translateY(0);
-}
-
-.image-slide-content h3 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-.image-slide-content p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    line-height: 1.5;
-}
-
-/* Controles del slider mejorados */
-.image-slider .swiper-pagination-bullet {
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0.7;
-    width: 12px;
-    height: 12px;
-    transition: all 0.3s ease;
-}
-
-.image-slider .swiper-pagination-bullet-active {
-    background: var(--accent);
-    opacity: 1;
-    transform: scale(1.2);
-}
-
-.image-slider .swiper-button-next,
-.image-slider .swiper-button-prev {
-    color: white;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.image-slider .swiper-button-next:after,
-.image-slider .swiper-button-prev:after {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.image-slider .swiper-button-next:hover,
-.image-slider .swiper-button-prev:hover {
-    background: var(--accent);
-    transform: scale(1.1);
-}
-
 /* ===== SLIDER SECTION MEJORADO ===== */
 .slider-section {
     margin-bottom: 40px;
@@ -1605,65 +1506,12 @@ input:checked + .slider:before {
     background: linear-gradient(135deg, #E53935 0%, #B71C1C 100%) !important;
 }
 
-/* ===== BOTONES DE REDES SOCIALES ===== */
-.social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 30px 0;
-}
-
-.social-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-}
-
-.social-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.social-btn:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.social-btn:hover::before {
-    opacity: 1;
-}
-
-.facebook { background: linear-gradient(135deg, #3b5998, #2d4373); }
-.twitter { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
-.instagram { background: linear-gradient(135deg, #e4405f, #c13584); }
-.youtube { background: linear-gradient(135deg, #cd201f, #a11715); }
-.linkedin { background: linear-gradient(135deg, #0077b5, #005885); }
-
 /* ===== FOOTER MEJORADO ===== */
 .footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
-    flex-wrap: wrap;
 }
 
 .footer-brand h3 {
@@ -1829,20 +1677,6 @@ input:checked + .slider:before {
     .crack-metrics {
         grid-template-columns: 1fr;
     }
-    
-    .image-slider {
-        height: 250px;
-    }
-    
-    .social-buttons {
-        gap: 15px;
-    }
-    
-    .social-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1893,65 +1727,10 @@ input:checked + .slider:before {
     .emergency-number {
         margin: 0;
     }
-    
-    .image-slider {
-        height: 200px;
-    }
-    
-    .social-buttons {
-        gap: 10px;
-    }
-    
-    .social-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
 }
     </style>
 </head>
 <body>
-    <!-- Slider de Imágenes Superior -->
-    <section class="image-slider-section">
-        <div class="container">
-            <div class="swiper image-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://web-assets.esetstatic.com/tn/-x700/wls/2025/01-2025/proteccion-datos-personales.jpeg" alt="Casa segura">
-                        <div class="image-slide-content">
-                            <h3>Protección Integral</h3>
-                            <p>Mantén tu hogar seguro ante cualquier emergencia</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThT8xCpVWagrLvzpnBUE-NV7tN-sp3b2MdAg&s" alt="Análisis de estructuras">
-                        <div class="image-slide-content">
-                            <h3>Análisis Profesional</h3>
-                            <p>Detecta riesgos estructurales con tecnología avanzada</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://media.gettyimages.com/id/157287151/es/foto/calibre-digital-de-100-mph.jpg?s=612x612&w=gi&k=20&c=n4guexNfMVKpyPfq_TdpT3Nd1TPmwpKU7bxY_9cgBFQ=" alt="Emergencias">
-                        <div class="image-slide-content">
-                            <h3>Respuesta Rápida</h3>
-                            <p>Protocolos de emergencia y contactos inmediatos</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://placenow.mx/wp-content/uploads/cuales-son-los-danos-estructurales-mas-comunes-que-te-puedes-encontrar-al-hacer-una-reforma-en-tu-vivienda.jpg" alt="Prevención">
-                        <div class="image-slide-content">
-                            <h3>Prevención Activa</h3>
-                            <p>Identifica riesgos antes de que se conviertan en problemas</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-    </section>
-
     <!-- Header -->
     <header class="glass-header">
         <div class="container">
@@ -2137,47 +1916,6 @@ input:checked + .slider:before {
         </section>
     </main>
 
-    <!-- Slider de Imágenes Inferior -->
-    <section class="image-slider-section">
-        <div class="container">
-            <div class="swiper image-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://nuc.edu/wp-content/uploads/2024/10/blog-seguridad-informatica-768x463.jpg" alt="Tecnología de seguridad">
-                        <div class="image-slide-content">
-                            <h3>Tecnología Avanzada</h3>
-                            <p>Utilizamos IA para detectar riesgos de forma precisa</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://iglesiatijuana.org/web/wp-content/uploads/2020/07/5fc701e1-0790-4cc3-930c-31e23c163b6d-768x553.jpg" alt="Comunidad segura">
-                        <div class="image-slide-content">
-                            <h3>Comunidad Protegida</h3>
-                            <p>Conecta con tus vecinos para una seguridad colectiva</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://widetech.co/wp-content/uploads/2024/07/monitoreo-inteligente2.webp" alt="Monitoreo 24/7">
-                        <div class="image-slide-content">
-                            <h3>Monitoreo Continuo</h3>
-                            <p>Vigilancia las 24 horas para tu tranquilidad</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://media.licdn.com/dms/image/v2/D4E12AQEo0M4Ot_HAVQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1696296117954?e=2147483647&v=beta&t=pOXcvybLETisUlQqKkMD_qO30BzLZJ47-K0Fyu8JebQ" alt="Reportes detallados">
-                        <div class="image-slide-content">
-                            <h3>Reportes Detallados</h3>
-                            <p>Recibe análisis completos de la seguridad de tu hogar</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-    </section>
-
     <!-- Modal de Números de Emergencia -->
     <div class="emergency-modal" id="emergencyModal">
         <div class="modal-content">
@@ -2291,26 +2029,6 @@ input:checked + .slider:before {
                     <a href="#"><i class="fas fa-file-alt"></i> Términos</a>
                 </div>
             </div>
-            
-            <!-- Botones de Redes Sociales -->
-            <div class="social-buttons">
-                <a href="#" class="social-btn facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-btn twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-btn instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="social-btn youtube">
-                    <i class="fab fa-youtube"></i>
-                </a>
-                <a href="#" class="social-btn linkedin">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
-            
             <div class="footer-bottom">
                 <p>© 2025 SafeHome. Todos los derechos reservados. | Protegiendo hogares, salvando vidas.</p>
             </div>
@@ -2328,8 +2046,6 @@ input:checked + .slider:before {
             constructor() {
                 this.map = null;
                 this.swiper = null;
-                this.imageSliderTop = null;
-                this.imageSliderBottom = null;
                 this.chatbot = null;
                 this.isListening = false;
                 this.recognition = null;
@@ -2343,7 +2059,6 @@ input:checked + .slider:before {
             // ===== INICIALIZACIÓN PRINCIPAL =====
             init() {
                 this.initSwiper();
-                this.initImageSliders();
                 this.initMap();
                 this.initChatbot();
                 this.initVoiceRecognition();
@@ -2383,44 +2098,6 @@ input:checked + .slider:before {
                     effect: 'slide',
                     speed: 600
                 });
-            }
-
-            // ===== CONFIGURACIÓN DE SLIDERS DE IMÁGENES MEJORADA =====
-            initImageSliders() {
-                // Configuración común para ambos sliders
-                const sliderConfig = {
-                    slidesPerView: 1,
-                    spaceBetween: 0,
-                    loop: true,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                        dynamicBullets: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    autoplay: {
-                        delay: 4000,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: true,
-                    },
-                    effect: 'fade',
-                    fadeEffect: {
-                        crossFade: true
-                    },
-                    speed: 1000,
-                    grabCursor: true,
-                    preloadImages: false,
-                    lazy: true,
-                };
-
-                // Slider superior
-                this.imageSliderTop = new Swiper('.image-slider-section:first-child .image-slider', sliderConfig);
-
-                // Slider inferior
-                this.imageSliderBottom = new Swiper('.image-slider-section:last-child .image-slider', sliderConfig);
             }
 
             // ===== CONFIGURACIÓN DEL MAPA =====
