@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - SafeHome</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== PALETA DE COLORES AZULES Y GRADIENTES ===== */
+        :root {
+            --primary: #1E88E5;
+            --primary-dark: #1565C0;
+            --primary-light: #64B5F6;
+            --secondary: #0277BD;
+            --accent: #00ACC1;
+            --danger: #E53935;
+            --warning: #FF8F00;
+            --success: #00C853;
+            --dark: #0D47A1;
+            --light: #E3F2FD;
+            --gray: #546E7A;
+            
+            --gradient-primary: linear-gradient(135deg, #1E88E5 0%, #0D47A1 100%);
+            --gradient-secondary: linear-gradient(135deg, #0277BD 0%, #01579B 100%);
+            --gradient-accent: linear-gradient(135deg, #00ACC1 0%, #00838F 100%);
+            --gradient-header: linear-gradient(135deg, #1E88E5 0%, #1565C0 50%, #0D47A1 100%);
+            --gradient-footer: linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #1E88E5 100%);
+            --gradient-card: linear-gradient(135deg, rgba(30, 136, 229, 0.9) 0%, rgba(13, 71, 161, 0.8) 100%);
+            
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== RESET Y ESTILOS BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: white;
+            background: linear-gradient(135deg, #0D47A1 0%, #1E88E5 50%, #64B5F6 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .main-nav {
+            background: var(--gradient-header);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .about-hero {
+            padding: 100px 0;
+            text-align: center;
+            background: var(--gradient-header);
+            border-radius: 30px;
+            margin-bottom: 50px;
+        }
+
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .about-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* ===== TEAM SLIDER ===== */
+        .team-section {
+            margin: 80px 0;
+        }
+
+        .team-slider {
+            width: 100%;
+            height: 450px;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .team-slide {
+            background: var(--gradient-card);
+            padding: 50px 40px;
+            border-radius: 25px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .team-slide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .team-slide .position {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .team-slide p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .team-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-social a:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        /* ===== VALUES SECTION ===== */
+        .values-section {
+            margin: 80px 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .value-card {
+            background: var(--gradient-card);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            margin: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--gradient-card);
+            border-radius: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* ===== SECTION HEADER ===== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .slider-nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .slider-nav button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            border: none;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 172, 193, 0.4);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .slider-nav button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 172, 193, 0.6);
+        }
+
+        /* ===== MISSION VISION SECTION ===== */
+        .mission-vision {
+            margin: 80px 0;
+        }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .mv-card {
+            background: var(--gradient-card);
+            padding: 50px 40px;
+            border-radius: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mv-card h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .mv-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* ===== PIE DE PÁGINA CON GRADIENTE ===== */
+        .glass-footer {
+            background: var(--gradient-footer);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            box-shadow: 0 -8px 32px rgba(13, 71, 161, 0.3);
+            border-radius: 30px 30px 0 0;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-3px);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.05rem;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .team-slider {
+                height: 500px;
+            }
+            
+            .mv-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-slider {
+                height: 550px;
+            }
+        }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-element {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>SafeHome</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/house">Análisis de Viviendas</a></li>
+                <li><a href="/alerts">Sistema de Alertas</a></li>
+                <li><a href="/about" class="active">Sobre Nosotros</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>Sobre SafeHome</h1>
+            <p>Conoce al equipo detrás de la tecnología que está revolucionando la protección de hogares en Latinoamérica</p>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestra Misión y Visión</h2>
+                <p>Comprometidos con la seguridad de tu hogar y tu familia</p>
+            </div>
+            <div class="mv-grid">
+                <div class="mv-card">
+                    <h3><i class="fas fa-bullseye"></i> Misión</h3>
+                    <p>Proveer soluciones tecnológicas innovadoras que empoderen a las familias para proteger sus hogares contra desastres naturales, mediante análisis predictivos, alertas tempranas y recomendaciones personalizadas basadas en inteligencia artificial.</p>
+                </div>
+                <div class="mv-card">
+                    <h3><i class="fas fa-eye"></i> Visión</h3>
+                    <p>Ser la plataforma líder en Latinoamérica para la prevención y gestión de riesgos en el hogar, reduciendo significativamente los daños materiales y salvando vidas mediante la tecnología accesible y educación continua.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Slider Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestro Equipo</h2>
+                <p>Conoce a los expertos que hacen posible SafeHome</p>
+                <div class="slider-nav">
+                    <button class="team-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="team-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="swiper team-slider">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1: CEO -->
+                    <div class="swiper-slide">
+                        <div class="team-slide">
+                            <div class="team-photo">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3>María González</h3>
+                            <div class="position">CEO & Fundadora</div>
+                            <p>Ingeniera Civil con 15 años de experiencia en análisis estructural y gestión de riesgos. Lideró proyectos de reconstrucción post-desastres en 5 países antes de fundar SafeHome.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2: CTO -->
+                    <div class="swiper-slide">
+                        <div class="team-slide">
+                            <div class="team-photo">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3>Carlos Rodríguez</h3>
+                            <div class="position">CTO & Co-Fundador</div>
+                            <p>Especialista en IA y machine learning con enfoque en computer vision. Doctorado en Ciencias de la Computación y más de 20 publicaciones en análisis de imágenes estructurales.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                                <a href="#"><i class="fas fa-graduation-cap"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3: Directora de Operaciones -->
+                    <div class="swiper-slide">
+                        <div class="team-slide">
+                            <div class="team-photo">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3>Ana Martínez</h3>
+                            <div class="position">Directora de Operaciones</div>
+                            <p>Experta en gestión de proyectos y coordinación de equipos multidisciplinarios. MBA con especialización en Tecnología y más de 10 años liderando equipos en startups tecnológicas.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fas fa-globe"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 4: Líder de IA -->
+                    <div class="swiper-slide">
+                        <div class="team-slide">
+                            <div class="team-photo">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3>David Chen</h3>
+                            <div class="position">Líder de Investigación en IA</div>
+                            <p>Especialista en redes neuronales y procesamiento de imágenes. Contribuyó al desarrollo de algoritmos de detección de grietas que han sido implementados en proyectos internacionales.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-researchgate"></i></a>
+                                <a href="#"><i class="fas fa-book"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestros Valores</h2>
+                <p>Los principios que guían cada decisión que tomamos</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Seguridad Primero</h3>
+                    <p>La protección de vidas y hogares es nuestra máxima prioridad en cada decisión que tomamos y cada línea de código que escribimos.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovación Constante</h3>
+                    <p>Buscamos continuamente nuevas formas de mejorar y adaptar nuestra tecnología a las necesidades cambiantes de nuestros usuarios.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Compromiso Social</h3>
+                    <p>Estamos profundamente comprometidos con el bienestar de nuestras comunidades y la protección del medio ambiente.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Transparencia Total</h3>
+                    <p>Creemos en la comunicación abierta y honesta con nuestros usuarios sobre cómo funcionan nuestras tecnologías.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Trabajo en Equipo</h3>
+                    <p>Valoramos la colaboración y creemos que las mejores soluciones surgen de equipos diversos y multidisciplinarios.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Excelencia Técnica</h3>
+                    <p>Nos esforzamos por la más alta calidad en cada aspecto de nuestro trabajo, desde el código hasta la experiencia del usuario.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nuestro Impacto</h2>
+                <p>Datos que respaldan nuestro compromiso con la seguridad</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <div class="stat-label">Familias Protegidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Imágenes Analizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100,000+</div>
+                    <div class="stat-label">Alertas Generadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Monitoreo Activo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Países Alcanzados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">99.8%</div>
+                    <div class="stat-label">Precisión en Detección</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3><i class="fas fa-shield-alt"></i> SafeHome</h3>
+                    <p>Protección inteligente contra desastres naturales</p>
+                </div>
+                <div class="footer-links">
+                    <a href="/"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="/house"><i class="fas fa-home"></i> Análisis</a>
+                    <a href="/alerts"><i class="fas fa-bell"></i> Alertas</a>
+                    <a href="/about"><i class="fas fa-info-circle"></i> Nosotros</a>
+                    <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 SafeHome. Todos los derechos reservados. | Protegiendo hogares, salvando vidas.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.js"></script>
+    
+    <!-- JavaScript para el Slider -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar el slider del equipo
+            const teamSwiper = new Swiper('.team-slider', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.team-next',
+                    prevEl: '.team-prev',
+                },
+                autoplay: {
+                    delay: 6000,
+                    disableOnInteraction: false,
+                },
+                effect: 'slide',
+                speed: 800,
+                loop: true
+            });
+        });
+    </script>
+</body>
+</html>
