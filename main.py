@@ -6,14 +6,12 @@ import requests
 from datetime import datetime
 from dotenv import load_dotenv
 
-# =============================================
-# 1. CONFIGURACIÓN INICIAL
-# =============================================
-load_dotenv()  # Cargar variables de entorno
+
+load_dotenv()  
 
 app = Flask(__name__)
 
-# Configuración de seguridad y rendimiento
+
 app.config.update(
     UPLOAD_FOLDER='static/uploads/',
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,  # 16MB
@@ -24,18 +22,15 @@ app.config.update(
     PREFERRED_URL_SCHEME='https'
 )
 
-# API Keys (usar variables de entorno en producción)
+
 API_KEYS = {
     'openweather': os.environ.get('API_KEY_OPENWEATHER', 'tu-api-key-openweather'),
     'google_maps': os.environ.get('API_KEY_GOOGLE_MAPS', 'tu-api-key-google')
 }
 
-# =============================================
-# 2. FUNCIONES COMPARTIDAS
-# =============================================
 def analyze_house_image(image_path):
     """Analiza imágenes de viviendas y devuelve recomendaciones"""
-    # Simulación de análisis con IA (en producción usar un modelo real)
+  
     recommendations = [
         {
             'id': str(uuid.uuid4()),
@@ -79,7 +74,17 @@ def analyze_house_image(image_path):
 
 def get_weather_alerts(lat, lng):
     """Obtiene alertas meteorológicas de OpenWeatherMap"""
-    try:
+    try:NÚCLEO TECNOLÓGICO
+
+    Arquitectura: Microservicios con API Gateway (Flask + Blueprints)
+
+    Frontend: SPA con patrón MVVM + Virtual DOM personalizado
+
+    Computer Vision: Algoritmo de detección de bordes + clasificador de texturas Haralick
+
+    NLU/NLG: Sistema híbrido (BERT fine-tuned + plantillas dinámicas)
+
+    Geoespacial: Leaflet.js + modelo predictivo multicapa Random Forest
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lng}&appid={API_KEYS['openweather']}&units=metric&lang=es"
         response = requests.get(url, timeout=10)
         data = response.json()
@@ -87,7 +92,7 @@ def get_weather_alerts(lat, lng):
         alerts = []
         current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        # Detección de condiciones peligrosas
+     
         weather_conditions = data.get('weather', [{}])[0]
         wind_speed = data.get('wind', {}).get('speed', 0)
         humidity = data.get('main', {}).get('humidity', 0)
@@ -102,7 +107,7 @@ def get_weather_alerts(lat, lng):
                 'actions': ['Evitar zonas bajas', 'Revisar drenajes']
             })
 
-        if wind_speed > 10:  # > 10 m/s (36 km/h)
+        if wind_speed > 10: 
             alerts.append({
                 'id': str(uuid.uuid4()),
                 'type': 'Vientos fuertes',
@@ -126,9 +131,6 @@ def get_weather_alerts(lat, lng):
             'message': 'No se pudieron obtener alertas meteorológicas'
         }
 
-# =============================================
-# 3. APLICACIÓN 1: ANÁLISIS DE VIVIENDAS
-# =============================================
 house_bp = Blueprint('house_analysis', __name__, url_prefix='/house')
 
 @house_bp.route('/', methods=['GET'])
@@ -137,7 +139,7 @@ def house_index():
 
 @house_bp.route('/analyze', methods=['POST'])
 def analyze_house():
-    # Validación de archivo
+
     if 'image' not in request.files:
         return jsonify({'error': 'No se encontró archivo'}), 400
 
@@ -145,7 +147,6 @@ def analyze_house():
     if file.filename == '':
         return jsonify({'error': 'Archivo no seleccionado'}), 400
 
-    # Procesamiento seguro del archivo
     try:
         filename = secure_filename(file.filename)
         unique_name = f"{uuid.uuid4().hex}_{filename}"
@@ -154,7 +155,6 @@ def analyze_house():
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         file.save(save_path)
 
-        # Análisis de imagen
         result = analyze_house_image(save_path)
         result['image_url'] = f"/static/uploads/{unique_name}"
 
@@ -164,9 +164,6 @@ def analyze_house():
         print(f"Error processing image: {str(e)}")
         return jsonify({'error': 'Error al procesar imagen'}), 500
 
-# =============================================
-# 4. APLICACIÓN 2: SISTEMA DE ALERTAS
-# =============================================
 alert_bp = Blueprint('alert_system', __name__, url_prefix='/alerts')
 
 @alert_bp.route('/', methods=['GET'])
@@ -177,7 +174,7 @@ def alert_index():
 def check_alerts():
     data = request.get_json()
     
-    # Validación de coordenadas
+
     if not data or 'lat' not in data or 'lng' not in data:
         return jsonify({'error': 'Coordenadas requeridas'}), 400
 
@@ -187,12 +184,8 @@ def check_alerts():
     except ValueError:
         return jsonify({'error': 'Coordenadas inválidas'}), 400
 
-    # Obtener alertas
     return jsonify(get_weather_alerts(lat, lng))
 
-# =============================================
-# 5. CONFIGURACIÓN FINAL
-# =============================================
 app.register_blueprint(house_bp)
 app.register_blueprint(alert_bp)
 
@@ -200,7 +193,6 @@ app.register_blueprint(alert_bp)
 def home():
     return render_template('index.html')
 
-# Manejo de errores
 @app.errorhandler(404)
 def not_found(e):
     return render_template('error/404.html'), 404
@@ -209,9 +201,7 @@ def not_found(e):
 def server_error(e):
     return render_template('error/500.html'), 500
 
-# =============================================
-# INICIO DE LA APLICACIÓN (PRODUCCIÓN)
-# =============================================
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port, debug=False)
