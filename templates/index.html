@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-/* ===== PALETA DE COLORES AZULES Y GRADIENTES ===== */
+
 :root {
     --primary: #1E88E5;
     --primary-dark: #1565C0;
@@ -34,7 +34,6 @@
     --glass-border: rgba(255, 255, 255, 0.2);
 }
 
-/* ===== RESET Y ESTILOS BASE ===== */
 * {
     margin: 0;
     padding: 0;
@@ -57,7 +56,6 @@ body {
     padding: 20px;
 }
 
-/* ===== ENCABEZADO CON GRADIENTE ===== */
 .glass-header {
     background: var(--gradient-header);
     backdrop-filter: blur(20px);
@@ -87,7 +85,7 @@ body {
     100% { transform: translateX(100%); }
 }
 
-/* ===== PIE DE PÁGINA CON GRADIENTE ===== */
+
 .glass-footer {
     background: var(--gradient-footer);
     backdrop-filter: blur(20px);
@@ -100,7 +98,6 @@ body {
     overflow: hidden;
 }
 
-/* ===== TARJETAS CON GRADIENTES AZULES ===== */
 .glass-card {
     background: var(--gradient-card);
     backdrop-filter: blur(20px);
@@ -127,7 +124,7 @@ body {
     pointer-events: none;
 }
 
-/* ===== ANIMACIONES ===== */
+
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
@@ -152,7 +149,7 @@ body {
     animation: float 3s ease-in-out infinite;
 }
 
-/* ===== HEADER MEJORADO ===== */
+
 .header-content {
     display: flex;
     flex-direction: column;
@@ -178,7 +175,7 @@ body {
     font-weight: 300;
 }
 
-/* Barra de búsqueda */
+
 .search-container {
     width: 100%;
     max-width: 600px;
@@ -235,7 +232,6 @@ body {
     box-shadow: 0 6px 20px rgba(0, 172, 193, 0.6);
 }
 
-/* Risk Meter Mejorado */
 .risk-meter {
     width: 100%;
     max-width: 600px;
@@ -278,7 +274,7 @@ body {
     box-shadow: 0 2px 10px rgba(0, 172, 193, 0.5);
 }
 
-/* ===== SLIDER SECTION MEJORADO ===== */
+
 .slider-section {
     margin-bottom: 40px;
 }
@@ -411,7 +407,7 @@ body {
     color: #6BCF7F;
 }
 
-/* ===== MAP SECTION MEJORADO ===== */
+
 .map-section {
     margin-bottom: 40px;
 }
@@ -500,7 +496,7 @@ body {
     background: #00C853;
 }
 
-/* ===== UPLOAD SECTION MEJORADO ===== */
+
 .upload-container {
     display: flex;
     flex-direction: column;
@@ -638,7 +634,6 @@ body {
     justify-content: center;
 }
 
-/* ===== ANÁLISIS MEJORADO ===== */
 .analysis-progress {
     margin: 25px 0;
     text-align: center;
@@ -748,7 +743,7 @@ body {
     box-shadow: 0 4px 15px rgba(0, 172, 193, 0.4);
 }
 
-/* ===== BOTONES DE EMERGENCIA MEJORADOS ===== */
+
 .emergency-buttons {
     display: flex;
     justify-content: center;
@@ -828,7 +823,6 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* ===== MODAL DE EMERGENCIA MEJORADO ===== */
 .emergency-modal {
     display: none;
     position: fixed;
@@ -978,7 +972,6 @@ body {
     box-shadow: 0 6px 20px rgba(0, 172, 193, 0.6);
 }
 
-/* ===== NOTIFICACIÓN DE TERREMOTO MEJORADA ===== */
 .earthquake-alert {
     position: fixed;
     top: 35px;
@@ -1070,7 +1063,7 @@ input:checked + .slider:before {
     transform: translateX(35px);
 }
 
-/* ===== ANÁLISIS DE GRIETAS MEJORADO ===== */
+
 .crack-analysis {
     margin-top: 30px;
     display: flex;
@@ -1174,7 +1167,7 @@ input:checked + .slider:before {
     font-weight: 500;
 }
 
-/* ===== RESULTS SECTION MEJORADO ===== */
+
 .results-section {
     background: var(--gradient-card);
     backdrop-filter: blur(25px);
@@ -1331,7 +1324,6 @@ input:checked + .slider:before {
     line-height: 1.6;
 }
 
-/* ===== CHATBOT STYLES ===== */
 .chatbot-toggle {
     position: fixed;
     bottom: 35px;
@@ -1506,7 +1498,7 @@ input:checked + .slider:before {
     background: linear-gradient(135deg, #E53935 0%, #B71C1C 100%) !important;
 }
 
-/* ===== FOOTER MEJORADO ===== */
+
 .footer-content {
     display: flex;
     justify-content: space-between;
@@ -1560,7 +1552,6 @@ input:checked + .slider:before {
     font-size: 1.05rem;
 }
 
-/* ===== UTILITY CLASSES ===== */
 .hidden {
     display: none !important;
 }
@@ -1731,7 +1722,7 @@ input:checked + .slider:before {
     </style>
 </head>
 <body>
-    <!-- Header -->
+
     <header class="glass-header">
         <div class="container">
             <div class="header-content">
@@ -1739,7 +1730,6 @@ input:checked + .slider:before {
                 <p>Protección inteligente para tu hogar</p>
             </div>
 
-            <!-- Barra de Búsqueda Mejorada -->
             <div class="search-container">
                 <div class="search-box">
                     <input type="text" id="globalSearch" placeholder="Buscar recomendaciones, emergencias, grietas...">
@@ -1761,7 +1751,7 @@ input:checked + .slider:before {
     </header>
 
     <main class="container">
-        <!-- Slider de Recomendaciones -->
+ 
         <section class="slider-section">
             <div class="section-header">
                 <h2>Recomendaciones para tu hogar</h2>
@@ -1772,12 +1762,12 @@ input:checked + .slider:before {
             </div>
             <div class="swiper recommendation-slider">
                 <div class="swiper-wrapper" id="recommendationSlider">
-                    <!-- Slides se cargan dinámicamente -->
+
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
         </section>
-<!-- ---------------- SLIDER RESPONSIVE Y MODERNO ---------------- -->
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
@@ -1785,7 +1775,7 @@ input:checked + .slider:before {
     .slider-container {
         position: relative;
         width: 95%;
-        max-width: 1200px; /* MÁS LARGO */
+        max-width: 1200px; 
         margin: 40px auto;
         overflow: hidden;
         border-radius: 20px;
@@ -1808,11 +1798,10 @@ input:checked + .slider:before {
 
     .slide img {
         width: 100%;
-        height: 480px;  /* MÁS ALTO */
+        height: 480px;  
         object-fit: cover;
     }
 
-    /* Sombreado suave abajo */
     .caption-gradient {
         position: absolute;
         bottom: 0;
@@ -1833,7 +1822,6 @@ input:checked + .slider:before {
         text-shadow: 0 4px 10px rgba(0,0,0,0.7);
     }
 
-    /* Responsivo */
     @media (max-width: 900px) {
         .slide img {
             height: 380px;
@@ -1855,35 +1843,33 @@ input:checked + .slider:before {
 
 <div class="slider-container">
 
-    <!-- IA detectando grietas -->
+  
     <div class="slide active">
         <img src="https://images.unsplash.com/photo-1598403038688-78de1a971b04?auto=format&fit=crop&w=1200&q=80" />
         <div class="caption-gradient"></div>
         <div class="caption">Detección automática de grietas mediante IA</div>
     </div>
 
-    <!-- Inspección estructural -->
     <div class="slide">
         <img src="https://pyhca.com/wp-content/uploads/2023/11/inspeccion-calidad-construccion.jpg" />
         <div class="caption-gradient"></div>
         <div class="caption">Evalúa el estado de paredes, pisos y estructuras</div>
     </div>
 
-    <!-- Meteorología -->
+ 
     <div class="slide">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGFWj9nLnzmDcxJ73Qnj2K8R0noG5jU7caig&s" />
         <div class="caption-gradient"></div>
         <div class="caption">Alertas meteorológicas en tiempo real para tu seguridad</div>
     </div>
 
-    <!-- ChatBot y recomendaciones -->
+   
     <div class="slide">
         <img src="https://www.nextiva.com/cdn-cgi/image/width=1280,height=720,fit=cover,gravity=auto,format=auto/blog/wp-content/uploads/sites/10/2024/11/Chatbot-Call-Center.webp?resize=1024,576" />
         <div class="caption-gradient"></div>
         <div class="caption">ChatBot inteligente con recomendaciones precisas</div>
     </div>
 
-    <!-- Seguridad en viviendas -->
     <div class="slide">
         <img src="https://www.tecnoseguro.com/media/k2/items/cache/88ef4947bc838e25afe26677036db057_XL.jpg" />
         <div class="caption-gradient"></div>
@@ -1902,9 +1888,9 @@ input:checked + .slider:before {
         slides[index].classList.add("active");
     }
 
-    setInterval(showNextSlide, 4800); // Cambio cada 4.8 segundos
+    setInterval(showNextSlide, 4800); 
 </script>
-        <!-- Mapa de Riesgos -->
+       
         <section class="map-section">
             <div class="section-header">
                 <h2>Mapa de Riesgos</h2>
@@ -1925,7 +1911,7 @@ input:checked + .slider:before {
         </section>
 
 
-        <!-- Análisis de Imágenes -->
+       
         <section class="upload-section glass-card">
             <h2>Analiza tu propiedad</h2>
             <p class="analysis-info">Sube una foto de tu casa para detectar grietas, daños estructurales y recibir recomendaciones personalizadas.</p>
@@ -1947,7 +1933,7 @@ input:checked + .slider:before {
             </div>
 
 
-            <!-- Análisis en Progreso -->
+        
             <div class="analysis-progress hidden" id="analysisProgress">
                 <h3>Analizando imagen...</h3>
                 <div class="progress-bar">
@@ -1956,13 +1942,12 @@ input:checked + .slider:before {
                 <p id="progressText">Preparando modelo de IA</p>
             </div>
 
-            <!-- Detalles del Análisis -->
+   
             <div class="analysis-details hidden" id="analysisDetails">
                 <h3>Detalles del análisis</h3>
                 <div id="detectionResults"></div>
             </div>
 
-            <!-- Análisis de Grietas -->
             <div class="crack-analysis hidden" id="crackAnalysis">
                 <h3>Análisis detallado de grietas</h3>
                 <div class="analysis-canvas-container">
@@ -1996,7 +1981,6 @@ input:checked + .slider:before {
             </div>
         </section>
 
-        <!-- Botones de Emergencia -->
         <section class="emergency-buttons-section">
             <div class="section-header">
                 <h2>Alertas y Emergencias</h2>
@@ -2021,7 +2005,6 @@ input:checked + .slider:before {
             </div>
         </section>
 
-        <!-- Resultados del Análisis -->
         <section class="results-section hidden glass-card" id="resultsSection">
             <div class="results-header">
                 <h2>Resultados del análisis</h2>
@@ -2044,7 +2027,7 @@ input:checked + .slider:before {
         </section>
     </main>
 
-    <!-- Modal de Números de Emergencia -->
+
     <div class="emergency-modal" id="emergencyModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2094,9 +2077,7 @@ input:checked + .slider:before {
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Notificación de Alerta Sísmica -->
+  
     <div class="earthquake-alert" id="earthquakeAlert">
         <div class="alert-content">
             <i class="fas fa-exclamation-triangle"></i>
@@ -2108,7 +2089,6 @@ input:checked + .slider:before {
         <button class="close-alert">&times;</button>
     </div>
 
-    <!-- Chatbot Widget -->
     <div class="chatbot-widget" id="chatbotWidget">
         <div class="chatbot-header">
             <h4><i class="fas fa-robot"></i> Asistente SafeHome</h4>
@@ -2137,12 +2117,12 @@ input:checked + .slider:before {
         </div>
     </div>
 
-    <!-- Botón Flotante del Chatbot -->
+
     <button class="chatbot-toggle" id="chatbotToggle">
         <i class="fas fa-robot"></i>
     </button>
 
-    <!-- Footer -->
+  
     <footer class="glass-footer">
         <div class="container">
             <div class="footer-content">
@@ -2163,13 +2143,13 @@ input:checked + .slider:before {
         </div>
     </footer>
 
-    <!-- JavaScript Libraries -->
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.0/swiper-bundle.min.js"></script>
     
-    <!-- JavaScript Principal -->
+
     <script>
-        // ===== CONFIGURACIÓN INICIAL Y VARIABLES GLOBALES =====
+
         class SafeHomeApp {
             constructor() {
                 this.map = null;
@@ -2184,7 +2164,7 @@ input:checked + .slider:before {
                 this.init();
             }
 
-            // ===== INICIALIZACIÓN PRINCIPAL =====
+         
             init() {
                 this.initSwiper();
                 this.initMap();
@@ -2194,7 +2174,6 @@ input:checked + .slider:before {
                 this.loadSampleData();
             }
 
-            // ===== CONFIGURACIÓN DEL SWIPER =====
             initSwiper() {
                 this.swiper = new Swiper('.recommendation-slider', {
                     slidesPerView: 1,
@@ -2228,26 +2207,26 @@ input:checked + .slider:before {
                 });
             }
 
-            // ===== CONFIGURACIÓN DEL MAPA =====
+    
             initMap() {
-                // Inicializar mapa centrado en México City
+           
                 this.map = L.map('riskMap').setView([19.4326, -99.1332], 12);
                 
-                // Capa base de OpenStreetMap
+             
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                     maxZoom: 18
                 }).addTo(this.map);
 
-                // Agregar zonas de riesgo de ejemplo
+             
                 this.addRiskZones();
                 
-                // Configurar geolocalización
+            
                 this.setupGeolocation();
             }
 
             addRiskZones() {
-                // Zona de alto riesgo
+               
                 const highRiskZone = L.circle([19.4326, -99.1332], {
                     color: '#EF476F',
                     fillColor: '#EF476F',
@@ -2262,7 +2241,6 @@ input:checked + .slider:before {
                     </div>
                 `);
 
-                // Zona de riesgo medio
                 const mediumRiskZone = L.circle([19.4285, -99.1276], {
                     color: '#FF9E00',
                     fillColor: '#FF9E00',
@@ -2277,7 +2255,6 @@ input:checked + .slider:before {
                     </div>
                 `);
 
-                // Zona de bajo riesgo
                 const lowRiskZone = L.circle([19.4360, -99.1390], {
                     color: '#06D6A0',
                     fillColor: '#06D6A0',
@@ -2315,7 +2292,7 @@ input:checked + .slider:before {
                     L.circle(e.latlng, radius)
                         .addTo(this.map);
                         
-                    // Obtener alertas meteorológicas para esta ubicación
+                
                     this.getWeatherAlerts(e.latlng.lat, e.latlng.lng);
                 });
 
@@ -2325,7 +2302,7 @@ input:checked + .slider:before {
                 });
             }
 
-            // ===== CHATBOT INTELIGENTE =====
+          
             initChatbot() {
                 this.setupChatbotUI();
                 this.setupChatbotResponses();
@@ -2338,7 +2315,7 @@ input:checked + .slider:before {
                 const chatbotInput = document.getElementById('chatbotInput');
                 const voiceSearchBtn = document.getElementById('voiceSearchBtn');
 
-                // Toggle del chatbot
+      
                 chatbotToggle.addEventListener('click', () => {
                     this.toggleChatbot();
                 });
@@ -2347,7 +2324,7 @@ input:checked + .slider:before {
                     this.closeChatbot();
                 });
 
-                // Envío de mensajes
+               
                 chatbotSend.addEventListener('click', () => {
                     this.sendChatbotMessage();
                 });
@@ -2358,12 +2335,12 @@ input:checked + .slider:before {
                     }
                 });
 
-                // Búsqueda por voz en chatbot
+           
                 voiceSearchBtn.addEventListener('click', () => {
                     this.toggleVoiceSearch('chatbot');
                 });
 
-                // Búsqueda por voz global
+                
                 const globalVoiceSearchBtn = document.getElementById('globalVoiceSearchBtn');
                 if (globalVoiceSearchBtn) {
                     globalVoiceSearchBtn.addEventListener('click', () => {
@@ -2371,7 +2348,6 @@ input:checked + .slider:before {
                     });
                 }
 
-                // Búsqueda global
                 const globalSearchBtn = document.getElementById('globalSearchBtn');
                 const globalSearchInput = document.getElementById('globalSearch');
                 
@@ -2395,23 +2371,23 @@ input:checked + .slider:before {
                         actions: ['showUploadSection']
                     },
                     'emergencia': {
-                        response: '🚨 **PROTOCOLO DE EMERGENCIA** 🚨\n\n1. Mantén la calma\n2. Activa alertas sísmicas\n3. Contacta emergencias:\n   • Protección Civil: 56 83 22 22\n   • Bomberos: 57 84 2124\n   • Cruz Roja: 53 95 11 11\n4. Sigue rutas de evacuación',
+                        response: '🚨 PROTOCOLO DE EMERGENCIA 🚨\n\n1. Mantén la calma\n2. Activa alertas sísmicas\n3. Contacta emergencias:\n   • Protección Civil: 56 83 22 22\n   • Bomberos: 57 84 2124\n   • Cruz Roja: 53 95 11 11\n4. Sigue rutas de evacuación',
                         actions: ['showEmergencyModal']
                     },
                     'estructura': {
-                        response: '🔧 **EVALUACIÓN ESTRUCTURAL**\n\nRecomendaciones:\n• Revisar cimientos anualmente\n• Verificar columnas y vigas\n• Consultar ingeniero estructural\n• Monitorear grietas existentes\n• Realizar mantenimiento preventivo',
+                        response: '🔧 EVALUACIÓN ESTRUCTURAL\n\nRecomendaciones:\n• Revisar cimientos anualmente\n• Verificar columnas y vigas\n• Consultar ingeniero estructural\n• Monitorear grietas existentes\n• Realizar mantenimiento preventivo',
                         actions: []
                     },
                     'terremoto': {
-                        response: '🏢 **PROTOCOLO SÍSMICO**\n\n**ANTES:**\n• Prepara kit de emergencia\n• Identifica zonas seguras\n• Fija muebles altos\n\n**DURANTE:**\n• Protégete bajo marcos/mesas\n• Aléjate de ventanas\n• No uses ascensores\n\n**DESPUÉS:**\n• Revisa daños estructurales\n• Evacúa si es necesario\n• Reporta emergencias',
+                        response: '🏢 PROTOCOLO SÍSMICO\n\nANTES:\n• Prepara kit de emergencia\n• Identifica zonas seguras\n• Fija muebles altos\n\n**DURANTE:**\n• Protégete bajo marcos/mesas\n• Aléjate de ventanas\n• No uses ascensores\n\n**DESPUÉS:**\n• Revisa daños estructurales\n• Evacúa si es necesario\n• Reporta emergencias',
                         actions: []
                     },
                     'inundación': {
-                        response: '🌊 **PREVENCIÓN DE INUNDACIONES**\n\n• Instala barreras impermeables\n• Mantén desagües limpios\n• Eleva equipos eléctricos\n• Ten un plan de evacuación\n• Monitorea alertas meteorológicas',
+                        response: '🌊 PREVENCIÓN DE INUNDACIONES\n\n• Instala barreras impermeables\n• Mantén desagües limpios\n• Eleva equipos eléctricos\n• Ten un plan de evacuación\n• Monitorea alertas meteorológicas',
                         actions: []
                     },
                     'kit': {
-                        response: '🎒 **KIT DE EMERGENCIA BÁSICO**\n\n• Agua (4L por persona/día)\n• Alimentos no perecederos\n• Botiquín de primeros auxilios\n• Linterna y radio\n• Documentos importantes\n• Medicamentos\n• Dinero en efectivo\n• Manta térmica',
+                        response: '🎒 KIT DE EMERGENCIA BÁSICO\n\n• Agua (4L por persona/día)\n• Alimentos no perecederos\n• Botiquín de primeros auxilios\n• Linterna y radio\n• Documentos importantes\n• Medicamentos\n• Dinero en efectivo\n• Manta térmica',
                         actions: []
                     },
                     'analizar': {
@@ -2470,7 +2446,7 @@ input:checked + .slider:before {
                 messagesContainer.appendChild(messageDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 
-                // Efecto de escritura para mensajes del bot
+          
                 if (sender === 'bot') {
                     this.typewriterEffect(messageDiv.querySelector('.message-content'), text);
                 }
@@ -2492,7 +2468,7 @@ input:checked + .slider:before {
             }
 
             formatMessage(text) {
-                // Formato básico de markdown
+
                 return text
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -2504,7 +2480,7 @@ input:checked + .slider:before {
                 const lowerMessage = message.toLowerCase();
                 let response = this.chatbotResponses.default;
                 
-                // Buscar coincidencia de palabras clave
+
                 for (const [keyword, data] of Object.entries(this.chatbotResponses)) {
                     if (lowerMessage.includes(keyword) && keyword !== 'default') {
                         response = data;
@@ -2512,11 +2488,11 @@ input:checked + .slider:before {
                     }
                 }
                 
-                // Simular tiempo de procesamiento
+
                 setTimeout(() => {
                     this.addChatMessage(response.response, 'bot');
                     
-                    // Ejecutar acciones asociadas
+
                     response.actions.forEach(action => {
                         this.executeChatbotAction(action);
                     });
@@ -2537,7 +2513,7 @@ input:checked + .slider:before {
                 }
             }
 
-            // ===== BÚSQUEDA POR VOZ =====
+
             initVoiceRecognition() {
                 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2624,7 +2600,7 @@ input:checked + .slider:before {
 
                 const lowerQuery = query.toLowerCase();
                 
-                // Buscar en diferentes secciones
+      
                 if (lowerQuery.includes('grieta') || lowerQuery.includes('daño') || lowerQuery.includes('estructura')) {
                     document.querySelector('.upload-section').scrollIntoView({ behavior: 'smooth' });
                     this.showNotification('🔍 Te llevo a la sección de análisis de grietas');
@@ -2638,7 +2614,7 @@ input:checked + .slider:before {
                     document.querySelector('.slider-section').scrollIntoView({ behavior: 'smooth' });
                     this.showNotification('💡 Mostrando recomendaciones de seguridad');
                 } else {
-                    // Búsqueda general - abrir chatbot
+
                     this.toggleChatbot();
                     setTimeout(() => {
                         this.addChatMessage(query, 'user');
@@ -2647,7 +2623,7 @@ input:checked + .slider:before {
                 }
             }
 
-            // ===== ANÁLISIS DE IMÁGENES =====
+         
             setupImageAnalysis() {
                 const uploadArea = document.getElementById('uploadArea');
                 const fileInput = document.getElementById('fileInput');
@@ -2707,10 +2683,10 @@ input:checked + .slider:before {
                 
                 document.getElementById('analysisProgress').classList.remove('hidden');
                 
-                // Simular progreso
+
                 await this.simulateProgress(progressFill, progressText);
                 
-                // Análisis real con detección de grietas
+ 
                 await this.analyzeImageForCracks(file);
                 
                 analyzeBtn.disabled = false;
@@ -2753,7 +2729,7 @@ input:checked + .slider:before {
                         const origCtx = document.getElementById('originalCanvas').getContext('2d');
                         const crackCtx = document.getElementById('crackCanvas').getContext('2d');
                         
-                        // Configurar canvases
+                  
                         const maxWidth = 500;
                         const ratio = Math.min(maxWidth / img.width, 1);
                         const canvasWidth = img.width * ratio;
@@ -2763,26 +2739,24 @@ input:checked + .slider:before {
                             canvas.width = canvasWidth;
                             canvas.height = canvasHeight;
                         });
-                        
-                        // Dibujar imagen original
+               
                         origCtx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                         
-                        // Detectar grietas
+                        
                         const crackData = this.detectCracks(origCtx, canvasWidth, canvasHeight);
                         
-                        // Dibujar grietas detectadas
+             
                         this.drawCracks(crackCtx, crackData, canvasWidth, canvasHeight);
                         
-                        // Actualizar métricas
+                    
                         this.updateCrackMetrics(crackData);
-                        
-                        // Procesar resultados
+             
                         this.processAnalysisResults(crackData);
                     };
                     
                 } catch (error) {
                     console.error('Error analizando imagen:', error);
-                    // Fallback a análisis simulado
+                  
                     setTimeout(() => {
                         const mockData = {
                             points: Array(150).fill().map(() => ({
@@ -2804,13 +2778,12 @@ input:checked + .slider:before {
                 const data = imageData.data;
                 const cracks = [];
                 let totalLength = 0;
-                
-                // Algoritmo simplificado de detección de bordes
+
                 for (let y = 1; y < height - 1; y++) {
                     for (let x = 1; x < width - 1; x++) {
                         const idx = (y * width + x) * 4;
                         
-                        // Calcular diferencia de intensidad con píxeles circundantes
+                      
                         const topIdx = ((y - 1) * width + x) * 4;
                         const bottomIdx = ((y + 1) * width + x) * 4;
                         const leftIdx = (y * width + (x - 1)) * 4;
@@ -2828,7 +2801,7 @@ input:checked + .slider:before {
                         
                         const edgeStrength = (verticalDiff + horizontalDiff) / 2;
                         
-                        // Detectar píxeles de grieta (bordes fuertes en áreas oscuras)
+
                         if (edgeStrength > 20) {
                             const intensity = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
                             if (intensity < 120) {
@@ -2854,12 +2827,12 @@ input:checked + .slider:before {
             drawCracks(ctx, crackData, width, height) {
                 ctx.clearRect(0, 0, width, height);
                 
-                // Dibujar imagen original de fondo
+
                 ctx.globalAlpha = 0.3;
                 ctx.drawImage(document.getElementById('originalCanvas'), 0, 0);
                 ctx.globalAlpha = 1.0;
                 
-                // Dibujar grietas
+        
                 if (crackData.points.length > 0) {
                     ctx.fillStyle = '#EF476F';
                     
@@ -2924,7 +2897,7 @@ input:checked + .slider:before {
                     `;
                 }
                 
-                // Mostrar resultados completos
+              
                 setTimeout(() => {
                     this.showAnalysisResults(crackData);
                 }, 1000);
@@ -2969,24 +2942,21 @@ input:checked + .slider:before {
                     ]
                 };
 
-                // Actualizar interfaz
                 this.updateResultsUI(results);
                 
-                // Mostrar sección de resultados
                 document.getElementById('resultsSection').classList.remove('hidden');
                 document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-                
-                // Actualizar riesgo global
+
                 this.updateGlobalRiskLevel(riskLevel);
             }
 
             updateResultsUI(results) {
-                // Badge de riesgo
+ 
                 const riskBadge = document.getElementById('riskBadge');
                 riskBadge.textContent = `Riesgo ${results.riskLevel}`;
                 riskBadge.className = `risk-badge ${results.riskLevel.toLowerCase()}-risk`;
                 
-                // Vulnerabilidades
+              
                 const vulnerabilitiesList = document.getElementById('vulnerabilitiesList');
                 vulnerabilitiesList.innerHTML = '';
                 results.vulnerabilities.forEach(vuln => {
@@ -2996,7 +2966,7 @@ input:checked + .slider:before {
                     vulnerabilitiesList.appendChild(item);
                 });
                 
-                // Rutas de evacuación
+            
                 const evacuationRoutes = document.getElementById('evacuationRoutes');
                 evacuationRoutes.innerHTML = '';
                 results.routes.forEach(route => {
@@ -3011,7 +2981,7 @@ input:checked + .slider:before {
                     evacuationRoutes.appendChild(item);
                 });
                 
-                // Recomendaciones
+            
                 const improvementTips = document.getElementById('improvementTips');
                 improvementTips.innerHTML = '';
                 results.recommendations.forEach(tip => {
@@ -3038,13 +3008,12 @@ input:checked + .slider:before {
                 }
             }
 
-            // ===== SISTEMA DE ALERTAS =====
+         
             setupAlertSystem() {
                 const earthquakeToggle = document.getElementById('earthquakeToggle');
                 const earthquakeStatus = document.getElementById('earthquakeStatus');
                 const emergencyNumbersBtn = document.getElementById('emergencyNumbersBtn');
 
-                // Toggle de alertas sísmicas
                 if (earthquakeToggle) {
                     earthquakeToggle.addEventListener('change', (e) => {
                         this.earthquakeAlertsActive = e.target.checked;
@@ -3053,7 +3022,7 @@ input:checked + .slider:before {
                         
                         if (this.earthquakeAlertsActive) {
                             this.showNotification('🔔 Alertas sísmicas activadas');
-                            // Simular alerta después de 5 segundos (demo)
+                         
                             setTimeout(() => {
                                 this.showEarthquakeAlert();
                             }, 5000);
@@ -3061,19 +3030,18 @@ input:checked + .slider:before {
                     });
                 }
 
-                // Botón de números de emergencia
                 if (emergencyNumbersBtn) {
                     emergencyNumbersBtn.addEventListener('click', () => {
                         this.showEmergencyModal();
                     });
                 }
 
-                // Cerrar alerta de terremoto
+            
                 document.querySelector('.close-alert')?.addEventListener('click', () => {
                     this.hideEarthquakeAlert();
                 });
 
-                // Botones de llamada
+        
                 document.querySelectorAll('.call-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const number = e.target.closest('.emergency-item').querySelector('.emergency-number').textContent;
@@ -3081,12 +3049,12 @@ input:checked + .slider:before {
                     });
                 });
 
-                // Cerrar modal de emergencia
+       
                 document.querySelector('.close-modal')?.addEventListener('click', () => {
                     this.hideEmergencyModal();
                 });
 
-                // Cerrar modal al hacer clic fuera
+        
                 document.getElementById('emergencyModal')?.addEventListener('click', (e) => {
                     if (e.target === document.getElementById('emergencyModal')) {
                         this.hideEmergencyModal();
@@ -3100,10 +3068,9 @@ input:checked + .slider:before {
                 const alert = document.getElementById('earthquakeAlert');
                 alert.style.display = 'block';
                 
-                // Sonido de alerta (opcional)
+             
                 this.playAlertSound();
-                
-                // Ocultar automáticamente después de 15 segundos
+
                 setTimeout(() => {
                     this.hideEarthquakeAlert();
                 }, 15000);
@@ -3126,7 +3093,7 @@ input:checked + .slider:before {
             }
 
             playAlertSound() {
-                // Crear sonido de alerta simple usando Web Audio API
+         
                 try {
                     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const oscillator = audioContext.createOscillator();
@@ -3148,16 +3115,16 @@ input:checked + .slider:before {
                 }
             }
 
-            // ===== ALERTAS METEOROLÓGICAS =====
+          
             async getWeatherAlerts(lat, lng) {
                 try {
-                    // Simulación de API de clima
+                  
                     const mockAlerts = this.generateMockWeatherAlerts(lat, lng);
                     
                     if (mockAlerts.length > 0) {
                         this.showNotification(`🌦️ ${mockAlerts.length} alerta(s) meteorológica(s) para tu zona`);
                         
-                        // Agregar marcador de alerta en el mapa
+                       
                         L.marker([lat, lng])
                             .addTo(this.map)
                             .bindPopup(`
@@ -3192,9 +3159,9 @@ input:checked + .slider:before {
                 return alerts;
             }
 
-            // ===== NOTIFICACIONES =====
+   
             showNotification(message, type = 'info') {
-                // Crear elemento de notificación
+  
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 notification.innerHTML = `
@@ -3204,7 +3171,7 @@ input:checked + .slider:before {
                     </div>
                 `;
                 
-                // Estilos para la notificación
+
                 notification.style.cssText = `
                     position: fixed;
                     top: 20px;
@@ -3221,15 +3188,14 @@ input:checked + .slider:before {
                 `;
                 
                 document.body.appendChild(notification);
-                
-                // Auto-eliminar después de 5 segundos
+
                 setTimeout(() => {
                     if (notification.parentNode) {
                         notification.parentNode.removeChild(notification);
                     }
                 }, 5000);
                 
-                // Cerrar al hacer clic
+         
                 notification.querySelector('.notification-close').addEventListener('click', () => {
                     if (notification.parentNode) {
                         notification.parentNode.removeChild(notification);
@@ -3237,7 +3203,6 @@ input:checked + .slider:before {
                 });
             }
 
-            // ===== CARGA DE DATOS DE EJEMPLO =====
             loadSampleData() {
                 this.loadSampleRecommendations();
                 this.setupImageAnalysis();
@@ -3309,18 +3274,17 @@ input:checked + .slider:before {
                     sliderWrapper.appendChild(slide);
                 });
 
-                // Actualizar swiper
+              
                 if (this.swiper) {
                     this.swiper.update();
                 }
             }
 
-            // ===== CONFIGURACIÓN DE EVENT LISTENERS =====
             setupEventListeners() {
-                // Prevenir envío de formularios
+              
                 document.addEventListener('submit', (e) => e.preventDefault());
                 
-                // Mejorar accesibilidad
+         
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.closeChatbot();
@@ -3329,7 +3293,7 @@ input:checked + .slider:before {
                     }
                 });
                 
-                // Cargar más recomendaciones al hacer scroll
+
                 window.addEventListener('scroll', this.handleScroll.bind(this));
             }
 
@@ -3337,14 +3301,14 @@ input:checked + .slider:before {
                 const scrollPosition = window.scrollY + window.innerHeight;
                 const documentHeight = document.documentElement.scrollHeight;
                 
-                // Cargar más contenido cuando el usuario llega al final
+
                 if (scrollPosition >= documentHeight - 500) {
                     this.loadMoreContent();
                 }
             }
 
             loadMoreContent() {
-                // Simular carga de contenido adicional
+                
                 if (!this.contentLoaded) {
                     this.showNotification('📚 Cargando más recomendaciones...');
                     setTimeout(() => {
@@ -3355,18 +3319,17 @@ input:checked + .slider:before {
             }
         }
 
-        // ===== INICIALIZACIÓN DE LA APLICACIÓN =====
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar la aplicación
+
             window.safeHomeApp = new SafeHomeApp();
             
-            // Mostrar mensaje de bienvenida
+     
             setTimeout(() => {
                 window.safeHomeApp.showNotification('🚀 SafeHome cargado correctamente. ¡Tu hogar más seguro!');
             }, 1000);
         });
 
-        // ===== MANEJO DE ERRORES GLOBALES =====
         window.addEventListener('error', function(e) {
             console.error('Error global:', e.error);
         });
@@ -3375,7 +3338,6 @@ input:checked + .slider:before {
             console.error('Promise rechazada:', e.reason);
         });
 
-        // ===== COMPATIBILIDAD CON NAVEGADORES ANTIGUOS =====
         if (!Element.prototype.scrollIntoView) {
             Element.prototype.scrollIntoView = function() {
                 window.scrollTo(0, this.offsetTop);
