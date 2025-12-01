@@ -1,4 +1,4 @@
-// ===== CONFIGURACIÓN INICIAL Y VARIABLES GLOBALES =====
+
 class SafeHomeApp {
     constructor() {
         this.map = null;
@@ -12,7 +12,7 @@ class SafeHomeApp {
         this.init();
     }
 
-    // ===== INICIALIZACIÓN PRINCIPAL =====
+   
     init() {
         this.initSwiper();
         this.initMap();
@@ -22,7 +22,6 @@ class SafeHomeApp {
         this.loadSampleData();
     }
 
-    // ===== CONFIGURACIÓN DEL SWIPER =====
     initSwiper() {
         this.swiper = new Swiper('.recommendation-slider', {
             slidesPerView: 1,
@@ -56,26 +55,22 @@ class SafeHomeApp {
         });
     }
 
-    // ===== CONFIGURACIÓN DEL MAPA =====
     initMap() {
-        // Inicializar mapa centrado en México City
         this.map = L.map('riskMap').setView([19.4326, -99.1332], 12);
         
-        // Capa base de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
         }).addTo(this.map);
 
-        // Agregar zonas de riesgo de ejemplo
         this.addRiskZones();
         
-        // Configurar geolocalización
+
         this.setupGeolocation();
     }
 
     addRiskZones() {
-        // Zona de alto riesgo
+      
         const highRiskZone = L.circle([19.4326, -99.1332], {
             color: '#EF476F',
             fillColor: '#EF476F',
@@ -90,7 +85,7 @@ class SafeHomeApp {
             </div>
         `);
 
-        // Zona de riesgo medio
+      
         const mediumRiskZone = L.circle([19.4285, -99.1276], {
             color: '#FF9E00',
             fillColor: '#FF9E00',
@@ -105,7 +100,7 @@ class SafeHomeApp {
             </div>
         `);
 
-        // Zona de bajo riesgo
+        
         const lowRiskZone = L.circle([19.4360, -99.1390], {
             color: '#06D6A0',
             fillColor: '#06D6A0',
@@ -143,7 +138,7 @@ class SafeHomeApp {
             L.circle(e.latlng, radius)
                 .addTo(this.map);
                 
-            // Obtener alertas meteorológicas para esta ubicación
+          
             this.getWeatherAlerts(e.latlng.lat, e.latlng.lng);
         });
 
@@ -153,7 +148,7 @@ class SafeHomeApp {
         });
     }
 
-    // ===== CHATBOT INTELIGENTE =====
+
     initChatbot() {
         this.setupChatbotUI();
         this.setupChatbotResponses();
@@ -166,7 +161,7 @@ class SafeHomeApp {
         const chatbotInput = document.getElementById('chatbotInput');
         const voiceSearchBtn = document.getElementById('voiceSearchBtn');
 
-        // Toggle del chatbot
+     
         chatbotToggle.addEventListener('click', () => {
             this.toggleChatbot();
         });
@@ -175,7 +170,7 @@ class SafeHomeApp {
             this.closeChatbot();
         });
 
-        // Envío de mensajes
+   
         chatbotSend.addEventListener('click', () => {
             this.sendChatbotMessage();
         });
@@ -186,12 +181,12 @@ class SafeHomeApp {
             }
         });
 
-        // Búsqueda por voz en chatbot
+ 
         voiceSearchBtn.addEventListener('click', () => {
             this.toggleVoiceSearch('chatbot');
         });
 
-        // Búsqueda por voz global
+      
         const globalVoiceSearchBtn = document.getElementById('globalVoiceSearchBtn');
         if (globalVoiceSearchBtn) {
             globalVoiceSearchBtn.addEventListener('click', () => {
@@ -199,7 +194,6 @@ class SafeHomeApp {
             });
         }
 
-        // Búsqueda global
         const globalSearchBtn = document.getElementById('globalSearchBtn');
         const globalSearchInput = document.getElementById('globalSearch');
         
@@ -298,7 +292,7 @@ class SafeHomeApp {
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         
-        // Efecto de escritura para mensajes del bot
+   
         if (sender === 'bot') {
             this.typewriterEffect(messageDiv.querySelector('.message-content'), text);
         }
@@ -320,7 +314,7 @@ class SafeHomeApp {
     }
 
     formatMessage(text) {
-        // Formato básico de markdown
+  
         return text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -332,7 +326,7 @@ class SafeHomeApp {
         const lowerMessage = message.toLowerCase();
         let response = this.chatbotResponses.default;
         
-        // Buscar coincidencia de palabras clave
+
         for (const [keyword, data] of Object.entries(this.chatbotResponses)) {
             if (lowerMessage.includes(keyword) && keyword !== 'default') {
                 response = data;
@@ -340,11 +334,10 @@ class SafeHomeApp {
             }
         }
         
-        // Simular tiempo de procesamiento
+      
         setTimeout(() => {
             this.addChatMessage(response.response, 'bot');
-            
-            // Ejecutar acciones asociadas
+          
             response.actions.forEach(action => {
                 this.executeChatbotAction(action);
             });
@@ -365,7 +358,7 @@ class SafeHomeApp {
         }
     }
 
-    // ===== BÚSQUEDA POR VOZ =====
+
     initVoiceRecognition() {
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -452,7 +445,7 @@ class SafeHomeApp {
 
         const lowerQuery = query.toLowerCase();
         
-        // Buscar en diferentes secciones
+
         if (lowerQuery.includes('grieta') || lowerQuery.includes('daño') || lowerQuery.includes('estructura')) {
             document.querySelector('.upload-section').scrollIntoView({ behavior: 'smooth' });
             this.showNotification('🔍 Te llevo a la sección de análisis de grietas');
@@ -466,7 +459,7 @@ class SafeHomeApp {
             document.querySelector('.slider-section').scrollIntoView({ behavior: 'smooth' });
             this.showNotification('💡 Mostrando recomendaciones de seguridad');
         } else {
-            // Búsqueda general - abrir chatbot
+
             this.toggleChatbot();
             setTimeout(() => {
                 this.addChatMessage(query, 'user');
@@ -475,7 +468,7 @@ class SafeHomeApp {
         }
     }
 
-    // ===== ANÁLISIS DE IMÁGENES =====
+  
     setupImageAnalysis() {
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
@@ -535,10 +528,9 @@ class SafeHomeApp {
         
         document.getElementById('analysisProgress').classList.remove('hidden');
         
-        // Simular progreso
         await this.simulateProgress(progressFill, progressText);
         
-        // Análisis real con detección de grietas
+
         await this.analyzeImageForCracks(file);
         
         analyzeBtn.disabled = false;
@@ -581,7 +573,7 @@ class SafeHomeApp {
                 const origCtx = document.getElementById('originalCanvas').getContext('2d');
                 const crackCtx = document.getElementById('crackCanvas').getContext('2d');
                 
-                // Configurar canvases
+                
                 const maxWidth = 500;
                 const ratio = Math.min(maxWidth / img.width, 1);
                 const canvasWidth = img.width * ratio;
@@ -592,25 +584,23 @@ class SafeHomeApp {
                     canvas.height = canvasHeight;
                 });
                 
-                // Dibujar imagen original
+           
                 origCtx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
                 
-                // Detectar grietas
+            
                 const crackData = this.detectCracks(origCtx, canvasWidth, canvasHeight);
-                
-                // Dibujar grietas detectadas
+              
                 this.drawCracks(crackCtx, crackData, canvasWidth, canvasHeight);
                 
-                // Actualizar métricas
+            
                 this.updateCrackMetrics(crackData);
-                
-                // Procesar resultados
+            
                 this.processAnalysisResults(crackData);
             };
             
         } catch (error) {
             console.error('Error analizando imagen:', error);
-            // Fallback a análisis simulado
+      
             setTimeout(() => {
                 const mockData = {
                     points: Array(150).fill().map(() => ({
@@ -633,12 +623,12 @@ class SafeHomeApp {
         const cracks = [];
         let totalLength = 0;
         
-        // Algoritmo simplificado de detección de bordes
+
         for (let y = 1; y < height - 1; y++) {
             for (let x = 1; x < width - 1; x++) {
                 const idx = (y * width + x) * 4;
                 
-                // Calcular diferencia de intensidad con píxeles circundantes
+         
                 const topIdx = ((y - 1) * width + x) * 4;
                 const bottomIdx = ((y + 1) * width + x) * 4;
                 const leftIdx = (y * width + (x - 1)) * 4;
@@ -656,7 +646,7 @@ class SafeHomeApp {
                 
                 const edgeStrength = (verticalDiff + horizontalDiff) / 2;
                 
-                // Detectar píxeles de grieta (bordes fuertes en áreas oscuras)
+               
                 if (edgeStrength > 20) {
                     const intensity = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
                     if (intensity < 120) {
@@ -682,12 +672,11 @@ class SafeHomeApp {
     drawCracks(ctx, crackData, width, height) {
         ctx.clearRect(0, 0, width, height);
         
-        // Dibujar imagen original de fondo
         ctx.globalAlpha = 0.3;
         ctx.drawImage(document.getElementById('originalCanvas'), 0, 0);
         ctx.globalAlpha = 1.0;
         
-        // Dibujar grietas
+
         if (crackData.points.length > 0) {
             ctx.fillStyle = '#EF476F';
             
@@ -752,7 +741,7 @@ class SafeHomeApp {
             `;
         }
         
-        // Mostrar resultados completos
+
         setTimeout(() => {
             this.showAnalysisResults(crackData);
         }, 1000);
@@ -797,24 +786,24 @@ class SafeHomeApp {
             ]
         };
 
-        // Actualizar interfaz
+
         this.updateResultsUI(results);
         
-        // Mostrar sección de resultados
+
         document.getElementById('resultsSection').classList.remove('hidden');
         document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
         
-        // Actualizar riesgo global
+   
         this.updateGlobalRiskLevel(riskLevel);
     }
 
     updateResultsUI(results) {
-        // Badge de riesgo
+
         const riskBadge = document.getElementById('riskBadge');
         riskBadge.textContent = `Riesgo ${results.riskLevel}`;
         riskBadge.className = `risk-badge ${results.riskLevel.toLowerCase()}-risk`;
         
-        // Vulnerabilidades
+
         const vulnerabilitiesList = document.getElementById('vulnerabilitiesList');
         vulnerabilitiesList.innerHTML = '';
         results.vulnerabilities.forEach(vuln => {
@@ -824,7 +813,7 @@ class SafeHomeApp {
             vulnerabilitiesList.appendChild(item);
         });
         
-        // Rutas de evacuación
+      
         const evacuationRoutes = document.getElementById('evacuationRoutes');
         evacuationRoutes.innerHTML = '';
         results.routes.forEach(route => {
@@ -839,7 +828,7 @@ class SafeHomeApp {
             evacuationRoutes.appendChild(item);
         });
         
-        // Recomendaciones
+  
         const improvementTips = document.getElementById('improvementTips');
         improvementTips.innerHTML = '';
         results.recommendations.forEach(tip => {
@@ -866,13 +855,12 @@ class SafeHomeApp {
         }
     }
 
-    // ===== SISTEMA DE ALERTAS =====
+
     setupAlertSystem() {
         const earthquakeToggle = document.getElementById('earthquakeToggle');
         const earthquakeStatus = document.getElementById('earthquakeStatus');
         const emergencyNumbersBtn = document.getElementById('emergencyNumbersBtn');
 
-        // Toggle de alertas sísmicas
         if (earthquakeToggle) {
             earthquakeToggle.addEventListener('change', (e) => {
                 this.earthquakeAlertsActive = e.target.checked;
@@ -881,7 +869,7 @@ class SafeHomeApp {
                 
                 if (this.earthquakeAlertsActive) {
                     this.showNotification('🔔 Alertas sísmicas activadas');
-                    // Simular alerta después de 5 segundos (demo)
+                  
                     setTimeout(() => {
                         this.showEarthquakeAlert();
                     }, 5000);
@@ -889,19 +877,18 @@ class SafeHomeApp {
             });
         }
 
-        // Botón de números de emergencia
+
         if (emergencyNumbersBtn) {
             emergencyNumbersBtn.addEventListener('click', () => {
                 this.showEmergencyModal();
             });
         }
 
-        // Cerrar alerta de terremoto
         document.querySelector('.close-alert')?.addEventListener('click', () => {
             this.hideEarthquakeAlert();
         });
 
-        // Botones de llamada
+    
         document.querySelectorAll('.call-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const number = e.target.closest('.emergency-item').querySelector('.emergency-number').textContent;
@@ -909,12 +896,12 @@ class SafeHomeApp {
             });
         });
 
-        // Cerrar modal de emergencia
+     
         document.querySelector('.close-modal')?.addEventListener('click', () => {
             this.hideEmergencyModal();
         });
 
-        // Cerrar modal al hacer clic fuera
+
         document.getElementById('emergencyModal')?.addEventListener('click', (e) => {
             if (e.target === document.getElementById('emergencyModal')) {
                 this.hideEmergencyModal();
@@ -928,10 +915,10 @@ class SafeHomeApp {
         const alert = document.getElementById('earthquakeAlert');
         alert.style.display = 'block';
         
-        // Sonido de alerta (opcional)
+   
         this.playAlertSound();
         
-        // Ocultar automáticamente después de 15 segundos
+
         setTimeout(() => {
             this.hideEarthquakeAlert();
         }, 15000);
@@ -954,7 +941,7 @@ class SafeHomeApp {
     }
 
     playAlertSound() {
-        // Crear sonido de alerta simple usando Web Audio API
+
         try {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
@@ -976,16 +963,16 @@ class SafeHomeApp {
         }
     }
 
-    // ===== ALERTAS METEOROLÓGICAS =====
+
     async getWeatherAlerts(lat, lng) {
         try {
-            // Simulación de API de clima
+       
             const mockAlerts = this.generateMockWeatherAlerts(lat, lng);
             
             if (mockAlerts.length > 0) {
                 this.showNotification(`🌦️ ${mockAlerts.length} alerta(s) meteorológica(s) para tu zona`);
                 
-                // Agregar marcador de alerta en el mapa
+           
                 L.marker([lat, lng])
                     .addTo(this.map)
                     .bindPopup(`
@@ -1020,9 +1007,8 @@ class SafeHomeApp {
         return alerts;
     }
 
-    // ===== NOTIFICACIONES =====
     showNotification(message, type = 'info') {
-        // Crear elemento de notificación
+  
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.innerHTML = `
@@ -1032,7 +1018,7 @@ class SafeHomeApp {
             </div>
         `;
         
-        // Estilos para la notificación
+  
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -1050,14 +1036,13 @@ class SafeHomeApp {
         
         document.body.appendChild(notification);
         
-        // Auto-eliminar después de 5 segundos
+ 
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
             }
         }, 5000);
         
-        // Cerrar al hacer clic
         notification.querySelector('.notification-close').addEventListener('click', () => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
@@ -1065,7 +1050,7 @@ class SafeHomeApp {
         });
     }
 
-    // ===== CARGA DE DATOS DE EJEMPLO =====
+
     loadSampleData() {
         this.loadSampleRecommendations();
         this.setupImageAnalysis();
@@ -1137,18 +1122,18 @@ class SafeHomeApp {
             sliderWrapper.appendChild(slide);
         });
 
-        // Actualizar swiper
+   
         if (this.swiper) {
             this.swiper.update();
         }
     }
 
-    // ===== CONFIGURACIÓN DE EVENT LISTENERS =====
+   
     setupEventListeners() {
-        // Prevenir envío de formularios
+
         document.addEventListener('submit', (e) => e.preventDefault());
         
-        // Mejorar accesibilidad
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.closeChatbot();
@@ -1157,7 +1142,7 @@ class SafeHomeApp {
             }
         });
         
-        // Cargar más recomendaciones al hacer scroll
+
         window.addEventListener('scroll', this.handleScroll.bind(this));
     }
 
@@ -1165,14 +1150,14 @@ class SafeHomeApp {
         const scrollPosition = window.scrollY + window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         
-        // Cargar más contenido cuando el usuario llega al final
+
         if (scrollPosition >= documentHeight - 500) {
             this.loadMoreContent();
         }
     }
 
     loadMoreContent() {
-        // Simular carga de contenido adicional
+ 
         if (!this.contentLoaded) {
             this.showNotification('📚 Cargando más recomendaciones...');
             setTimeout(() => {
@@ -1183,18 +1168,18 @@ class SafeHomeApp {
     }
 }
 
-// ===== INICIALIZACIÓN DE LA APLICACIÓN =====
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar la aplicación
+ 
     window.safeHomeApp = new SafeHomeApp();
     
-    // Mostrar mensaje de bienvenida
+    
     setTimeout(() => {
         window.safeHomeApp.showNotification('🚀 SafeHome cargado correctamente. ¡Tu hogar más seguro!');
     }, 1000);
-});
+});º
 
-// ===== MANEJO DE ERRORES GLOBALES =====
+
 window.addEventListener('error', function(e) {
     console.error('Error global:', e.error);
 });
@@ -1203,7 +1188,7 @@ window.addEventListener('unhandledrejection', function(e) {
     console.error('Promise rechazada:', e.reason);
 });
 
-// ===== COMPATIBILIDAD CON NAVEGADORES ANTIGUOS =====
+
 if (!Element.prototype.scrollIntoView) {
     Element.prototype.scrollIntoView = function() {
         window.scrollTo(0, this.offsetTop);
